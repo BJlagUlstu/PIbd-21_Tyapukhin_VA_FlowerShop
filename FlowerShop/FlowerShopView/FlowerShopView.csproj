@@ -148,6 +148,10 @@
       <Project>{9c640df9-4951-4b02-b314-0132355bb09a}</Project>
       <Name>FlowerShopBusinessLogic</Name>
     </ProjectReference>
+    <ProjectReference Include="..\FlowerShopFileImplement\FlowerShopFileImplement.csproj">
+      <Project>{b3dd5807-bcb0-44fe-b260-45a30a1a4e59}</Project>
+      <Name>FlowerShopFileImplement</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FlowerShopListImplement\FlowerShopListImplement.csproj">
       <Project>{227d610a-e07e-404e-8cc3-d9aeee544bac}</Project>
       <Name>FlowerShopListImplement</Name>
