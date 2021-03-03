@@ -46,47 +46,47 @@ namespace FlowerShopListImplement.Implements
             {
                 return null;
             }
-            foreach (var product in source.Flowers)
+            foreach (var flower in source.Flowers)
             {
-                if (product.Id == model.Id || product.FlowerName ==
+                if (flower.Id == model.Id || flower.FlowerName ==
                 model.FlowerName)
                 {
-                    return CreateModel(product);
+                    return CreateModel(flower);
                 }
             }
             return null;
         }
         public void Insert(FlowerBindingModel model)
         {
-            Flower tempProduct = new Flower
+            Flower tempFlower = new Flower
             {
                 Id = 1,
                 FlowerComponents = new Dictionary<int, int>()
             };
-            foreach (var product in source.Flowers)
+            foreach (var flower in source.Flowers)
             {
-                if (product.Id >= tempProduct.Id)
+                if (flower.Id >= tempFlower.Id)
                 {
-                    tempProduct.Id = product.Id + 1;
+                    tempFlower.Id = flower.Id + 1;
                 }
             }
-            source.Flowers.Add(CreateModel(model, tempProduct));
+            source.Flowers.Add(CreateModel(model, tempFlower));
         }
         public void Update(FlowerBindingModel model)
         {
-            Flower tempProduct = null;
-            foreach (var product in source.Flowers)
+            Flower tempFlower = null;
+            foreach (var flower in source.Flowers)
             {
-                if (product.Id == model.Id)
+                if (flower.Id == model.Id)
                 {
-                    tempProduct = product;
+                    tempFlower = flower;
                 }
             }
-            if (tempProduct == null)
+            if (tempFlower == null)
             {
                 throw new Exception("Элемент не найден");
             }
-            CreateModel(model, tempProduct);
+            CreateModel(model, tempFlower);
         }
         public void Delete(FlowerBindingModel model)
         {
@@ -100,41 +100,41 @@ namespace FlowerShopListImplement.Implements
             }
             throw new Exception("Элемент не найден");
         }
-        private Flower CreateModel(FlowerBindingModel model, Flower product)
+        private Flower CreateModel(FlowerBindingModel model, Flower flower)
         {
-            product.FlowerName = model.FlowerName;
-            product.Price = model.Price;
+            flower.FlowerName = model.FlowerName;
+            flower.Price = model.Price;
             // удаляем убранные
-            foreach (var key in product.FlowerComponents.Keys.ToList())
+            foreach (var key in flower.FlowerComponents.Keys.ToList())
             {
                 if (!model.FlowerComponents.ContainsKey(key))
                 {
-                    product.FlowerComponents.Remove(key);
+                    flower.FlowerComponents.Remove(key);
                 }
             }
             // обновляем существуюущие и добавляем новые
             foreach (var component in model.FlowerComponents)
             {
-                if (product.FlowerComponents.ContainsKey(component.Key))
+                if (flower.FlowerComponents.ContainsKey(component.Key))
                 {
-                    product.FlowerComponents[component.Key] =
+                    flower.FlowerComponents[component.Key] =
                     model.FlowerComponents[component.Key].Item2;
                 }
                 else
                 {
-                    product.FlowerComponents.Add(component.Key,
+                    flower.FlowerComponents.Add(component.Key,
                     model.FlowerComponents[component.Key].Item2);
                 }
             }
-            return product;
+            return flower;
         }
-        private FlowerViewModel CreateModel(Flower product)
+        private FlowerViewModel CreateModel(Flower flower)
         {
             // требуется дополнительно получить список компонентов для изделия с названиями и их количество
             Dictionary<int, (string, int)> flowerComponents = new
             Dictionary<int, (string, int)>();
 
-            foreach (var pc in product.FlowerComponents)
+            foreach (var pc in flower.FlowerComponents)
             {
                 string componentName = string.Empty;
                 foreach (var component in source.Components)
@@ -149,9 +149,9 @@ namespace FlowerShopListImplement.Implements
             }
             return new FlowerViewModel
             {
-                Id = product.Id,
-                FlowerName = product.FlowerName,
-                Price = product.Price,
+                Id = flower.Id,
+                FlowerName = flower.FlowerName,
+                Price = flower.Price,
                 FlowerComponents = flowerComponents
             };
         }
