@@ -110,5 +110,15 @@ namespace FlowerShopView
         {
             LoadData();
         }
+        private void складыToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormStorehouses>();
+            form.ShowDialog();
+        }
+        private void пополнитьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormAddComponent>();
+            form.ShowDialog();
+        }
     }
 }
