@@ -27,9 +27,11 @@ namespace FlowerShopView
             currentContainer.RegisterType<IComponentStorage, ComponentStorage>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IOrderStorage, OrderStorage>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IFlowerStorage, FlowerStorage>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IStorehouseStorage, StorehouseStorage>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<ComponentLogic>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<OrderLogic>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<FlowerLogic>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<StorehouseLogic>(new HierarchicalLifetimeManager());
             return currentContainer;
         }
     }
