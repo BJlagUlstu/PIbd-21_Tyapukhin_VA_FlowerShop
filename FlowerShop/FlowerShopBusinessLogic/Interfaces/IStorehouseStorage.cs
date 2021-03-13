@@ -12,5 +12,6 @@ namespace FlowerShopBusinessLogic.Interfaces
         void Insert(StorehouseBindingModel model);
         void Update(StorehouseBindingModel model);
         void Delete(StorehouseBindingModel model);
+        void writeOffComponentsFromStorehouse(int orderID);
     }
 }
