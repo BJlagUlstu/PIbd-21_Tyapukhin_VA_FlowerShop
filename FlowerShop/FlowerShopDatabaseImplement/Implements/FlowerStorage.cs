@@ -87,10 +87,11 @@ namespace FlowerShopDatabaseImplement.Implements
                 {
                     try
                     {
-                        Flower flower = CreateModel(model, new Flower());
-                        context.Flowers.Add(flower);
+                        Flower p = new Flower { FlowerName = model.FlowerName, Price = model.Price };
+                        context.Flowers.Add(p);
                         context.SaveChanges();
-                        flower = CreateModel(model, flower, context);
+                        CreateModel(model, p, context);
+                        context.SaveChanges();
                         transaction.Commit();
                     }
                     catch
@@ -141,12 +142,6 @@ namespace FlowerShopDatabaseImplement.Implements
                     throw new Exception("Элемент не найден");
                 }
             }
-        }
-        private Flower CreateModel(FlowerBindingModel model, Flower Flower)
-        {
-            Flower.FlowerName = model.FlowerName;
-            Flower.Price = model.Price;
-            return Flower;
         }
         private Flower CreateModel(FlowerBindingModel model, Flower flower, FlowerShopDatabase context)
         {

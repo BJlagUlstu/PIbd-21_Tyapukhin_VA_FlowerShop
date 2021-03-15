@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using FlowerShopBusinessLogic.BindingModels;
@@ -19,7 +20,7 @@ namespace FlowerShopDatabaseImplement.Implements
                 {
                     Id = rec.Id,
                     FlowerId = rec.FlowerId,
-                    FlowerName = context.Flowers.FirstOrDefault(flowerName => flowerName.Id == rec.FlowerId).FlowerName,
+                    FlowerName = context.Flowers.Include(orec => orec.Orders).FirstOrDefault(flowerName => flowerName.Id == rec.FlowerId).FlowerName,
                     Count = rec.Count,
                     Sum = rec.Sum,
                     Status = rec.Status,
@@ -38,12 +39,12 @@ namespace FlowerShopDatabaseImplement.Implements
             using (var context = new FlowerShopDatabase())
             {
                 return context.Orders
-                .Where(rec => rec.DateCreate == model.DateCreate)
+                .Where(rec => rec.FlowerId == model.FlowerId)
                 .Select(rec => new OrderViewModel
                 {
                     Id = rec.Id,
                     FlowerId = rec.FlowerId,
-                    FlowerName = context.Flowers.FirstOrDefault(flowerName => flowerName.Id == rec.FlowerId).FlowerName,
+                    FlowerName = context.Flowers.Include(orec => orec.Orders).FirstOrDefault(flowerName => flowerName.Id == rec.FlowerId).FlowerName,
                     Count = rec.Count,
                     Sum = rec.Sum,
                     Status = rec.Status,
@@ -67,7 +68,7 @@ namespace FlowerShopDatabaseImplement.Implements
                 {
                     Id = order.Id,
                     FlowerId = order.FlowerId,
-                    FlowerName = context.Flowers.FirstOrDefault(flowerName => flowerName.Id == order.FlowerId)?.FlowerName,
+                    FlowerName = context.Flowers.Include(orec => orec.Orders).FirstOrDefault(flowerName => flowerName.Id == order.FlowerId)?.FlowerName,
                     Count = order.Count,
                     Sum = order.Sum,
                     Status = order.Status,
@@ -81,7 +82,18 @@ namespace FlowerShopDatabaseImplement.Implements
         {
             using (var context = new FlowerShopDatabase())
             {
-                context.Orders.Add(CreateModel(model, new Order()));
+                Order order = new Order
+                {
+                    FlowerId = model.FlowerId,
+                    Count = model.Count,
+                    Sum = model.Sum,
+                    Status = model.Status,
+                    DateCreate = model.DateCreate,
+                    DateImplement = model.DateImplement,
+                };
+                context.Orders.Add(order);
+                context.SaveChanges();
+                CreateModel(model, order);
                 context.SaveChanges();
             }
         }
@@ -94,6 +106,12 @@ namespace FlowerShopDatabaseImplement.Implements
                 {
                     throw new Exception("Элемент не найден");
                 }
+                element.FlowerId = model.FlowerId;
+                element.Count = model.Count;
+                element.Sum = model.Sum;
+                element.Status = model.Status;
+                element.DateCreate = model.DateCreate;
+                element.DateImplement = model.DateImplement;
                 CreateModel(model, element);
                 context.SaveChanges();
             }
@@ -116,12 +134,28 @@ namespace FlowerShopDatabaseImplement.Implements
         }
         private Order CreateModel(OrderBindingModel model, Order order)
         {
-            order.FlowerId = model.FlowerId;
-            order.Count = model.Count;
-            order.Sum = model.Sum;
-            order.Status = model.Status;
-            order.DateCreate = model.DateCreate;
-            order.DateImplement = model.DateImplement;
+            if (model == null)
+            {
+                return null;
+            }
+            using (var context = new FlowerShopDatabase())
+            {
+                Flower element = context.Flowers.FirstOrDefault(rec => rec.Id == model.FlowerId);
+                if (element != null)
+                {
+                    if (element.Orders == null)
+                    {
+                        element.Orders = new List<Order>();
+                    }
+                    element.Orders.Add(order);
+                    context.Flowers.Update(element);
+                    context.SaveChanges();
+                }
+                else
+                {
+                    throw new Exception("Элемент не найден");
+                }
+            }
             return order;
         }
     }
