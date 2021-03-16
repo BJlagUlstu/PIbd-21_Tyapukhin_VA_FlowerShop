@@ -115,37 +115,42 @@ namespace FlowerShopFileImplement.Implements
         }
         public void writeOffComponentsFromStorehouse(int orderID)
         {
-            foreach (var component in source.Flowers.FirstOrDefault(rec => rec.Id == source.Orders.FirstOrDefault(order => order.Id == orderID).FlowerId).FlowerComponents)
+            var FlowerId = source.Flowers.FirstOrDefault(rec => rec.Id == source.Orders.FirstOrDefault(order => order.Id == orderID).FlowerId).Id;
+            var countOrders = source.Orders.FirstOrDefault(rec => rec.Id == orderID).Count;
+
+            foreach (var component in source.Flowers.FirstOrDefault(rec => rec.Id == FlowerId).FlowerComponents)
             {
-                int count = component.Value * source.Orders.FirstOrDefault(rec => rec.Id == orderID).Count;
+                int countComponents = component.Value * countOrders;
+
                 foreach (Storehouse storehouse in source.Storehouses)
                 {
                     if (storehouse.StorehouseComponents.ContainsKey(component.Key))
                     {
-                        count -= storehouse.StorehouseComponents[component.Key];
+                        countComponents -= storehouse.StorehouseComponents[component.Key];
                     }
                 }
-                if (count > 0)
+                if (countComponents > 0)
                 {
                     throw new Exception("На складе нет необходимых компонентов");
                 }
             }
 
-            foreach (var component in source.Flowers.FirstOrDefault(rec => rec.Id == source.Orders.FirstOrDefault(order => order.Id == orderID).FlowerId).FlowerComponents)
+            foreach (var component in source.Flowers.FirstOrDefault(rec => rec.Id == FlowerId).FlowerComponents)
             {
-                int count = component.Value * source.Orders.FirstOrDefault(rec => rec.Id == orderID).Count;
+                int countComponents = component.Value * countOrders;
+
                 foreach (Storehouse storehouse in source.Storehouses)
                 {
                     if (storehouse.StorehouseComponents.ContainsKey(component.Key))
                     {
-                        if (storehouse.StorehouseComponents[component.Key] > count)
+                        if (storehouse.StorehouseComponents[component.Key] > countComponents)
                         {
-                            storehouse.StorehouseComponents[component.Key] -= count;
+                            storehouse.StorehouseComponents[component.Key] -= countComponents;
                             break;
                         }
                         else
                         {
-                            count -= storehouse.StorehouseComponents[component.Key];
+                            countComponents -= storehouse.StorehouseComponents[component.Key];
                             storehouse.StorehouseComponents[component.Key] = 0;
                         }
                     }
