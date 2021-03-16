@@ -44,7 +44,7 @@ namespace FlowerShopFileImplement.Implements
         }
         public void Insert(FlowerBindingModel model)
         {
-            int maxId = source.Flowers.Count > 0 ? source.Components.Max(rec => rec.Id) : 0;
+            int maxId = source.Flowers.Count > 0 ? source.Flowers.Max(rec => rec.Id) : 0;
             var element = new Flower
             {
                 Id = maxId + 1,

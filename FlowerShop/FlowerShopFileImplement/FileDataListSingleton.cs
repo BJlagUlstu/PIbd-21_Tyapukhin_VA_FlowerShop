@@ -14,15 +14,17 @@ namespace FlowerShopFileImplement
         private readonly string ComponentFileName = "Component.xml";
         private readonly string OrderFileName = "Order.xml";
         private readonly string FlowerFileName = "Flower.xml";
+        private readonly string StorehouseFileName = "Storehouse.xml";
         public List<Component> Components { get; set; }
         public List<Order> Orders { get; set; }
         public List<Flower> Flowers { get; set; }
-
+        public List<Storehouse> Storehouses { get; set; }
         private FileDataListSingleton()
         {
             Components = LoadComponents();
             Orders = LoadOrders();
             Flowers = LoadFlowers();
+            Storehouses = LoadStorehouses();
         }
         public static FileDataListSingleton GetInstance()
         {
@@ -38,6 +40,7 @@ namespace FlowerShopFileImplement
             SaveComponents();
             SaveOrders();
             SaveFlowers();
+            SaveStorehouses();
         }
 
         private List<Component> LoadComponents()
@@ -109,6 +112,34 @@ namespace FlowerShopFileImplement
             }
             return list;
         }
+        private List<Storehouse> LoadStorehouses()
+        {
+            var list = new List<Storehouse>();
+            if (File.Exists(StorehouseFileName))
+            {
+                XDocument xDocument = XDocument.Load(StorehouseFileName);
+                var xElements = xDocument.Root.Elements("Storehouse").ToList();
+                foreach (var elem in xElements)
+                {
+                    var storehouseComp = new Dictionary<int, int>();
+                    foreach (var component in elem.Element("StorehouseComponents").Elements("StorehouseComponent").ToList())
+                    {
+                        storehouseComp.Add(Convert.ToInt32(component.Element("Key").Value),
+                       Convert.ToInt32(component.Element("Value").Value));
+                    }
+                    list.Add(new Storehouse
+                    {
+                        StorehouseId = Convert.ToInt32(elem.Attribute("Id").Value),
+                        StorehouseName = elem.Element("StorehouseName").Value,
+                        FullName = elem.Element("FullName").Value,
+                        StorehouseComponents = storehouseComp
+                    });
+                    if (elem.Element("DateCreate").Value != "")
+                        list.Last().DateCreate = DateTime.ParseExact(elem.Element("DateCreate").Value, "d.M.yyyy H:m:s", null);
+                }
+            }
+            return list;
+        }
         private void SaveComponents()
         {
             if (Components != null)
@@ -167,6 +198,30 @@ namespace FlowerShopFileImplement
                 }
                 XDocument xDocument = new XDocument(xElement);
                 xDocument.Save(FlowerFileName);
+            }
+        }
+        private void SaveStorehouses()
+        {
+            if (Storehouses != null)
+            {
+                var xElement = new XElement("Storehouses");
+                foreach (var storehouse in Storehouses)
+                {
+                    var compElement = new XElement("StorehouseComponents");
+                    foreach (var component in storehouse.StorehouseComponents)
+                    {
+                        compElement.Add(new XElement("StorehouseComponent",
+                        new XElement("Key", component.Key),
+                        new XElement("Value", component.Value)));
+                    }
+                    xElement.Add(new XElement("Storehouse",
+                     new XAttribute("Id", storehouse.StorehouseId),
+                     new XElement("StorehouseName", storehouse.StorehouseName),
+                     new XElement("FullName", storehouse.FullName),
+                     new XElement("DateCreate", storehouse.DateCreate.ToString()), compElement));
+                }
+                XDocument xDocument = new XDocument(xElement);
+                xDocument.Save(StorehouseFileName);
             }
         }
     }

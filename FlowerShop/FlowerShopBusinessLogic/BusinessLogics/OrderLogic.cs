@@ -10,9 +10,11 @@ namespace FlowerShopBusinessLogic.BusinessLogics
     public class OrderLogic
     {
         private readonly IOrderStorage _orderStorage;
-        public OrderLogic(IOrderStorage orderStorage)
+        private readonly IStorehouseStorage _storehouseStorage;
+        public OrderLogic(IOrderStorage orderStorage, IStorehouseStorage storehouseStorage)
         {
             _orderStorage = orderStorage;
+            _storehouseStorage = storehouseStorage;
         }
         public List<OrderViewModel> Read(OrderBindingModel model)
         {
@@ -39,6 +41,8 @@ namespace FlowerShopBusinessLogic.BusinessLogics
         }
         public void TakeOrderInWork(ChangeStatusBindingModel model)
         {
+            _storehouseStorage.writeOffComponentsFromStorehouse(model.OrderId);
+
             var order = _orderStorage.GetElement(new OrderBindingModel
             {
                 Id = model.OrderId
