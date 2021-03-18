@@ -41,8 +41,6 @@ namespace FlowerShopBusinessLogic.BusinessLogics
         }
         public void TakeOrderInWork(ChangeStatusBindingModel model)
         {
-            _storehouseStorage.writeOffComponentsFromStorehouse(model.OrderId);
-
             var order = _orderStorage.GetElement(new OrderBindingModel
             {
                 Id = model.OrderId
@@ -54,6 +52,10 @@ namespace FlowerShopBusinessLogic.BusinessLogics
             if (order.Status != OrderStatus.Принят)
             {
                 throw new Exception("Заказ не в статусе \"Принят\"");
+            }
+            if (!_storehouseStorage.writeOffComponentsFromStorehouse(model.OrderId))
+            {
+                throw new Exception("На складе нет необходимых компонентов");
             }
             _orderStorage.Update(new OrderBindingModel
             {
