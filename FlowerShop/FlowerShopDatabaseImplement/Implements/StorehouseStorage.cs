@@ -181,7 +181,7 @@ namespace FlowerShopDatabaseImplement.Implements
             }
             return storehouse;
         }
-        public void writeOffComponentsFromStorehouse(int orderID)
+        public bool writeOffComponentsFromStorehouse(int orderID)
         {
             using (var context = new FlowerShopDatabase())
             {
@@ -212,11 +212,13 @@ namespace FlowerShopDatabaseImplement.Implements
                             }
                             if (countComponents > 0)
                             {
-                                throw new Exception();
+                                transaction.Rollback();
+                                return false;
                             }
                         }
                         context.SaveChanges();
                         transaction.Commit();
+                        return true;
                     }
                     catch (Exception)
                     {

@@ -153,7 +153,7 @@ namespace FlowerShopListImplement.Implements
                 StorehouseComponents = _storehouseComponents
             };
         }
-        public void writeOffComponentsFromStorehouse(int orderID)
+        public bool writeOffComponentsFromStorehouse(int orderID)
         {
             throw new NotImplementedException();
         }

@@ -113,7 +113,7 @@ namespace FlowerShopFileImplement.Implements
                 (source.Components.FirstOrDefault(recC => recC.Id == recPC.Key)?.ComponentName, recPC.Value))
             };
         }
-        public void writeOffComponentsFromStorehouse(int orderID)
+        public bool writeOffComponentsFromStorehouse(int orderID)
         {
             foreach (var component in source.Flowers.FirstOrDefault(rec => rec.Id == source.Orders.FirstOrDefault(order => order.Id == orderID).FlowerId).FlowerComponents)
             {
@@ -127,7 +127,7 @@ namespace FlowerShopFileImplement.Implements
                 }
                 if (count > 0)
                 {
-                    throw new Exception("На складе нет необходимых компонентов");
+                    return false;
                 }
             }
 
@@ -151,6 +151,7 @@ namespace FlowerShopFileImplement.Implements
                     }
                 }
             }
+            return true;
         }
     }
 }
