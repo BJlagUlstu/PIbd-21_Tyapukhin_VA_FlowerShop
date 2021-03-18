@@ -27,6 +27,13 @@ namespace FlowerShopFileImplement.Implements
             {
                 return null;
             }
+            if (model.DateTo != null && model.DateFrom != null)
+            {
+                return source.Orders
+                .Where(rec => rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo)
+                .Select(CreateModel)
+                .ToList();
+            }
             return source.Orders
             .Where(rec => rec.Id == model.Id)
             .Select(CreateModel)

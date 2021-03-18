@@ -3,6 +3,7 @@ using FlowerShopBusinessLogic.BusinessLogics;
 using System;
 using System.Windows.Forms;
 using Unity;
+using Microsoft.Reporting.WebForms;
 
 namespace FlowerShopView
 {
@@ -11,10 +12,12 @@ namespace FlowerShopView
         [Dependency]
         public new IUnityContainer Container { get; set; }
         private readonly OrderLogic _orderLogic;
-        public FormMain(OrderLogic orderLogic)
+        private ReportLogic _report;
+        public FormMain(OrderLogic orderLogic, ReportLogic report)
         {
             InitializeComponent();
             _orderLogic = orderLogic;
+            _report = report;
         }
         private void FormMain_Load(object sender, EventArgs e)
         {
@@ -109,6 +112,47 @@ namespace FlowerShopView
         private void ButtonRef_Click(object sender, EventArgs e)
         {
             LoadData();
+        }
+        private void списокКомпонентовToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var dialog = new SaveFileDialog { Filter = "docx|*.docx" })
+            {
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    _report.SaveComponentsToWordFile(new ReportBindingModel
+                    {
+                        FileName = dialog.FileName
+                    });
+                    MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK,
+                   MessageBoxIcon.Information);
+                }
+            }
+        }
+        private void списокКомпонентовПоРастениюToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormReportFlowerComponents>();
+            form.ShowDialog();
+        }
+        private void списокЗаказовToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormReportOrders>();
+            form.ShowDialog();
+        }
+        private void списокРастенийToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var dialog = new SaveFileDialog { Filter = "docx|*.docx" })
+            {
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    _report.SaveFlowersToWordFile(new ReportBindingModel { FileName = dialog.FileName });
+                    MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+        }
+        private void растенияСКомпонентамиToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormReportComponentsFlower>();
+            form.ShowDialog();
         }
     }
 }

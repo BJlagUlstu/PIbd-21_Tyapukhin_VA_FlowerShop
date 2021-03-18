@@ -36,6 +36,26 @@ namespace FlowerShopDatabaseImplement.Implements
             {
                 return null;
             }
+            if (model.DateFrom != null && model.DateTo != null)
+            {
+                using (var context = new FlowerShopDatabase())
+                {
+                    return context.Orders
+                    .Where(rec => rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo)
+                    .Select(rec => new OrderViewModel
+                    {
+                        Id = rec.Id,
+                        FlowerId = rec.FlowerId,
+                        FlowerName = context.Flowers.Include(orec => orec.Orders).FirstOrDefault(flowerName => flowerName.Id == rec.FlowerId).FlowerName,
+                        Count = rec.Count,
+                        Sum = rec.Sum,
+                        Status = rec.Status,
+                        DateCreate = rec.DateCreate,
+                        DateImplement = rec.DateImplement
+                    })
+                    .ToList();
+                }
+            }
             using (var context = new FlowerShopDatabase())
             {
                 return context.Orders
