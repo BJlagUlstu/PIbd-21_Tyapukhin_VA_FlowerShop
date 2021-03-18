@@ -60,6 +60,7 @@ namespace FlowerShopListImplement.Implements
             Storehouse _storehouse = new Storehouse
             {
                 StorehouseId = 1,
+                DateCreate = model.DateCreate,
                 StorehouseComponents = new Dictionary<int, int>()
             };
             foreach (var storehouse in source.Storehouses)

@@ -48,6 +48,7 @@ namespace FlowerShopFileImplement.Implements
             var element = new Storehouse
             {
                 StorehouseId = maxId + 1,
+                DateCreate = model.DateCreate,
                 StorehouseComponents = new Dictionary<int, int>()
             };
             source.Storehouses.Add(CreateModel(model, element));
