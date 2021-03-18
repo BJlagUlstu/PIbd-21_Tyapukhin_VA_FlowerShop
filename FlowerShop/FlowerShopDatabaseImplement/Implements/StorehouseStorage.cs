@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
-using System.Windows.Forms;
 
 namespace FlowerShopDatabaseImplement.Implements
 {
@@ -25,6 +24,7 @@ namespace FlowerShopDatabaseImplement.Implements
                     StorehouseId = rec.StorehouseId,
                     StorehouseName = rec.StorehouseName,
                     FullName = rec.FullName,
+                    DateCreate = rec.DateCreate,
                     StorehouseComponents = rec.StorehouseComponents
                     .ToDictionary(recTC => recTC.ComponentId, recTC => (recTC.Component?.ComponentName, recTC.Count))
                 })
@@ -49,6 +49,7 @@ namespace FlowerShopDatabaseImplement.Implements
                     StorehouseId = rec.StorehouseId,
                     StorehouseName = rec.StorehouseName,
                     FullName = rec.FullName,
+                    DateCreate = rec.DateCreate,
                     StorehouseComponents = rec.StorehouseComponents
                     .ToDictionary(recTC => recTC.ComponentId, recTC => (recTC.Component?.ComponentName, recTC.Count))
                 })
@@ -73,6 +74,7 @@ namespace FlowerShopDatabaseImplement.Implements
                     StorehouseId = Storehouse.StorehouseId,
                     StorehouseName = Storehouse.StorehouseName,
                     FullName = Storehouse.FullName,
+                    DateCreate = Storehouse.DateCreate,
                     StorehouseComponents = Storehouse.StorehouseComponents
                     .ToDictionary(recTC => recTC.ComponentId, recTC => (recTC.Component?.ComponentName, recTC.Count))
                 } :
@@ -87,7 +89,7 @@ namespace FlowerShopDatabaseImplement.Implements
                 {
                     try
                     {
-                        Storehouse p = new Storehouse { StorehouseName = model.StorehouseName, FullName = model.FullName };
+                        Storehouse p = new Storehouse { StorehouseName = model.StorehouseName, FullName = model.FullName, DateCreate = model.DateCreate };
                         context.Storehouses.Add(p);
                         context.SaveChanges();
                         CreateModel(model, p, context);
@@ -162,21 +164,21 @@ namespace FlowerShopDatabaseImplement.Implements
                 context.SaveChanges();
             }
             // добавили новые
-            foreach (var tc in model.StorehouseComponents)
+            foreach (var fc in model.StorehouseComponents)
             {
                 context.StorehouseComponents.Add(new StorehouseComponent
                 {
                     StorehouseId = storehouse.StorehouseId,
-                    ComponentId = tc.Key,
-                    Count = tc.Value.Item2
+                    ComponentId = fc.Key,
+                    Count = fc.Value.Item2
                 });
                 try
                 {
                     context.SaveChanges();
                 }
-                catch (DbUpdateException e)
+                catch (DbUpdateException)
                 {
-                    MessageBox.Show(e?.InnerException?.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    throw new Exception("Возникла ошибка при сохранении");
                 }
             }
             return storehouse;

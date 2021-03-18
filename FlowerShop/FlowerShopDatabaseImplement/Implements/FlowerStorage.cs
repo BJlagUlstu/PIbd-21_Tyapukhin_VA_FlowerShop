@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Forms;
 using FlowerShopBusinessLogic.BindingModels;
 using FlowerShopBusinessLogic.Interfaces;
 using FlowerShopBusinessLogic.ViewModels;
@@ -162,21 +161,21 @@ namespace FlowerShopDatabaseImplement.Implements
                 context.SaveChanges();
             }
             // добавили новые
-            foreach (var tc in model.FlowerComponents)
+            foreach (var fc in model.FlowerComponents)
             {
                 context.FlowerComponents.Add(new FlowerComponent
                 {
                     FlowerId = flower.Id,
-                    ComponentId = tc.Key,
-                    Count = tc.Value.Item2
+                    ComponentId = fc.Key,
+                    Count = fc.Value.Item2
                 });
                 try
                 {
                     context.SaveChanges();
                 }
-                catch (DbUpdateException e)
+                catch (DbUpdateException)
                 {
-                    MessageBox.Show(e?.InnerException?.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    throw new Exception("Возникла ошибка при сохранении");
                 }
             }
             return flower;
