@@ -35,7 +35,7 @@
             this.labelCount = new System.Windows.Forms.Label();
             this.labelComponent = new System.Windows.Forms.Label();
             this.comboBoxStorehouse = new System.Windows.Forms.ComboBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.labelStorehouse = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // buttonCancel
@@ -99,29 +99,29 @@
             this.comboBoxStorehouse.Size = new System.Drawing.Size(219, 21);
             this.comboBoxStorehouse.TabIndex = 13;
             // 
-            // label1
+            // labelStorehouse
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(18, 23);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(41, 13);
-            this.label1.TabIndex = 12;
-            this.label1.Text = "Склад:";
+            this.labelStorehouse.AutoSize = true;
+            this.labelStorehouse.Location = new System.Drawing.Point(18, 23);
+            this.labelStorehouse.Name = "labelStorehouse";
+            this.labelStorehouse.Size = new System.Drawing.Size(41, 13);
+            this.labelStorehouse.TabIndex = 12;
+            this.labelStorehouse.Text = "Склад:";
             // 
-            // FormAddNewComponent
+            // FormAddComponent
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(377, 181);
             this.Controls.Add(this.comboBoxStorehouse);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.labelStorehouse);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.comboBoxComponent);
             this.Controls.Add(this.textBoxCount);
             this.Controls.Add(this.labelCount);
             this.Controls.Add(this.labelComponent);
-            this.Name = "FormAddNewComponent";
+            this.Name = "FormAddComponent";
             this.Text = "Добавление компонента";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -137,6 +137,6 @@
         private System.Windows.Forms.Label labelCount;
         private System.Windows.Forms.Label labelComponent;
         private System.Windows.Forms.ComboBox comboBoxStorehouse;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label labelStorehouse;
     }
 }
