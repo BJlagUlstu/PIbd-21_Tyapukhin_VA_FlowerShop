@@ -33,17 +33,15 @@
             this.компонентыToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.растенияToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.отчетыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.списокКомпонентовToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.списокКомпонентовПоРастениюToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.списокЗаказовToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.списокРастенийToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.растенияСКомпонентамиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGridView = new System.Windows.Forms.DataGridView();
             this.buttonCreateOrder = new System.Windows.Forms.Button();
             this.buttonGiveOnPerform = new System.Windows.Forms.Button();
             this.buttonOrderComplete = new System.Windows.Forms.Button();
             this.buttonOrderPaid = new System.Windows.Forms.Button();
             this.buttonUpdateList = new System.Windows.Forms.Button();
-            this.растенияСКомпонентамиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.SuspendLayout();
@@ -85,28 +83,12 @@
             // отчетыToolStripMenuItem
             // 
             this.отчетыToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.списокКомпонентовToolStripMenuItem,
-            this.списокКомпонентовПоРастениюToolStripMenuItem,
-            this.списокЗаказовToolStripMenuItem,
             this.списокРастенийToolStripMenuItem,
-            this.растенияСКомпонентамиToolStripMenuItem});
+            this.растенияСКомпонентамиToolStripMenuItem,
+            this.списокЗаказовToolStripMenuItem});
             this.отчетыToolStripMenuItem.Name = "отчетыToolStripMenuItem";
             this.отчетыToolStripMenuItem.Size = new System.Drawing.Size(60, 20);
             this.отчетыToolStripMenuItem.Text = "Отчеты";
-            // 
-            // списокКомпонентовToolStripMenuItem
-            // 
-            this.списокКомпонентовToolStripMenuItem.Name = "списокКомпонентовToolStripMenuItem";
-            this.списокКомпонентовToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
-            this.списокКомпонентовToolStripMenuItem.Text = "Список компонентов";
-            this.списокКомпонентовToolStripMenuItem.Click += new System.EventHandler(this.списокКомпонентовToolStripMenuItem_Click);
-            // 
-            // списокКомпонентовПоРастениюToolStripMenuItem
-            // 
-            this.списокКомпонентовПоРастениюToolStripMenuItem.Name = "списокКомпонентовПоРастениюToolStripMenuItem";
-            this.списокКомпонентовПоРастениюToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
-            this.списокКомпонентовПоРастениюToolStripMenuItem.Text = "Компоненты по растениям";
-            this.списокКомпонентовПоРастениюToolStripMenuItem.Click += new System.EventHandler(this.списокКомпонентовПоРастениюToolStripMenuItem_Click);
             // 
             // списокЗаказовToolStripMenuItem
             // 
@@ -121,6 +103,13 @@
             this.списокРастенийToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
             this.списокРастенийToolStripMenuItem.Text = "Список растений";
             this.списокРастенийToolStripMenuItem.Click += new System.EventHandler(this.списокРастенийToolStripMenuItem_Click);
+            // 
+            // растенияСКомпонентамиToolStripMenuItem
+            // 
+            this.растенияСКомпонентамиToolStripMenuItem.Name = "растенияСКомпонентамиToolStripMenuItem";
+            this.растенияСКомпонентамиToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
+            this.растенияСКомпонентамиToolStripMenuItem.Text = "Растения с компонентами";
+            this.растенияСКомпонентамиToolStripMenuItem.Click += new System.EventHandler(this.растенияСКомпонентамиToolStripMenuItem_Click);
             // 
             // dataGridView
             // 
@@ -180,13 +169,6 @@
             this.buttonUpdateList.UseVisualStyleBackColor = true;
             this.buttonUpdateList.Click += new System.EventHandler(this.ButtonRef_Click);
             // 
-            // растенияСКомпонентамиToolStripMenuItem
-            // 
-            this.растенияСКомпонентамиToolStripMenuItem.Name = "растенияСКомпонентамиToolStripMenuItem";
-            this.растенияСКомпонентамиToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
-            this.растенияСКомпонентамиToolStripMenuItem.Text = "Растения с компонентами";
-            this.растенияСКомпонентамиToolStripMenuItem.Click += new System.EventHandler(this.растенияСКомпонентамиToolStripMenuItem_Click);
-            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -224,8 +206,6 @@
         private System.Windows.Forms.Button buttonOrderPaid;
         private System.Windows.Forms.Button buttonUpdateList;
         private System.Windows.Forms.ToolStripMenuItem отчетыToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem списокКомпонентовToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem списокКомпонентовПоРастениюToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem списокЗаказовToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem списокРастенийToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem растенияСКомпонентамиToolStripMenuItem;

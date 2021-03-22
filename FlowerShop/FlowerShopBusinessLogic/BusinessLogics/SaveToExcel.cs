@@ -54,54 +54,6 @@ namespace FlowerShopBusinessLogic.BusinessLogics
                     CellToName = "C1"
                 });
                 uint rowIndex = 2;
-                if (info.FlowerComponents != null)
-                {
-                    foreach (var pc in info.FlowerComponents)
-                    {
-                        InsertCellInWorksheet(new ExcelCellParameters
-                        {
-                            Worksheet = worksheetPart.Worksheet,
-                            ShareStringPart = shareStringPart,
-                            ColumnName = "A",
-                            RowIndex = rowIndex,
-                            Text = pc.ComponentName,
-                            StyleIndex = 0U
-                        });
-                        rowIndex++;
-                        foreach (var flower in pc.Flowers)
-                        {
-                            InsertCellInWorksheet(new ExcelCellParameters
-                            {
-                                Worksheet = worksheetPart.Worksheet,
-                                ShareStringPart = shareStringPart,
-                                ColumnName = "B",
-                                RowIndex = rowIndex,
-                                Text = flower.Item1,
-                                StyleIndex = 1U
-                            });
-                            InsertCellInWorksheet(new ExcelCellParameters
-                            {
-                                Worksheet = worksheetPart.Worksheet,
-                                ShareStringPart = shareStringPart,
-                                ColumnName = "C",
-                                RowIndex = rowIndex,
-                                Text = flower.Item2.ToString(),
-                                StyleIndex = 1U
-                            }); rowIndex++;
-                        }
-                        InsertCellInWorksheet(new ExcelCellParameters
-                        {
-                            Worksheet = worksheetPart.Worksheet,
-                            ShareStringPart = shareStringPart,
-                            ColumnName = "C",
-                            RowIndex = rowIndex,
-                            Text = pc.TotalCount.ToString(),
-                            StyleIndex = 0U
-                        });
-                        rowIndex++;
-                    }
-                    workbookpart.Workbook.Save();
-                }
                 if (info.ComponentsFlower != null)
                 {
                     foreach (var pc in info.ComponentsFlower)

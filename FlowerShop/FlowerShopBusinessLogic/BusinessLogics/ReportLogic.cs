@@ -90,16 +90,6 @@ namespace FlowerShopBusinessLogic.BusinessLogics
             }
             return list;
         }
-        // Сохранение компонент в файл-Word
-        public void SaveComponentsToWordFile(ReportBindingModel model)
-        {
-            SaveToWord.CreateDoc(new WordInfo
-            {
-                FileName = model.FileName,
-                Title = "Список компонент",
-                Components = _componentStorage.GetFullList()
-            });
-        }
         // Сохранение растения в файл-Word
         public void SaveFlowersToWordFile(ReportBindingModel model)
         {
@@ -108,16 +98,6 @@ namespace FlowerShopBusinessLogic.BusinessLogics
                 FileName = model.FileName,
                 Title = "Список растений",
                 Flowers = _flowerStorage.GetFullList()
-            });
-        }
-        // Сохранение компонент с указанием растений в файл-Excel
-        public void SaveFlowerComponentToExcelFile(ReportBindingModel model)
-        {
-            SaveToExcel.CreateDoc(new ExcelInfo
-            {
-                FileName = model.FileName,
-                Title = "Список компонент",
-                FlowerComponents = GetFlowerComponent()
             });
         }
         // Сохранение растений с указанием компонент в файл-Excel
