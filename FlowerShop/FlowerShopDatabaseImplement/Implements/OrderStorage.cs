@@ -15,12 +15,11 @@ namespace FlowerShopDatabaseImplement.Implements
         {
             using (var context = new FlowerShopDatabase())
             {
-                return context.Orders
-                .Select(rec => new OrderViewModel
+                return context.Orders.Include(rec => rec.Flower).Select(rec => new OrderViewModel
                 {
                     Id = rec.Id,
                     FlowerId = rec.FlowerId,
-                    FlowerName = context.Flowers.Include(orec => orec.Orders).FirstOrDefault(flowerName => flowerName.Id == rec.FlowerId).FlowerName,
+                    FlowerName = rec.Flower.FlowerName,
                     Count = rec.Count,
                     Sum = rec.Sum,
                     Status = rec.Status,
@@ -39,12 +38,13 @@ namespace FlowerShopDatabaseImplement.Implements
             using (var context = new FlowerShopDatabase())
             {
                 return context.Orders
+                .Include(rec => rec.Flower)
                 .Where(rec => rec.FlowerId == model.FlowerId)
                 .Select(rec => new OrderViewModel
                 {
                     Id = rec.Id,
                     FlowerId = rec.FlowerId,
-                    FlowerName = context.Flowers.Include(orec => orec.Orders).FirstOrDefault(flowerName => flowerName.Id == rec.FlowerId).FlowerName,
+                    FlowerName = rec.Flower.FlowerName,
                     Count = rec.Count,
                     Sum = rec.Sum,
                     Status = rec.Status,
@@ -62,13 +62,13 @@ namespace FlowerShopDatabaseImplement.Implements
             }
             using (var context = new FlowerShopDatabase())
             {
-                var order = context.Orders.FirstOrDefault(rec => rec.Id == model.Id);
+                var order = context.Orders.Include(rec => rec.Flower).FirstOrDefault(rec => rec.Id == model.Id);
                 return order != null ?
                 new OrderViewModel
                 {
                     Id = order.Id,
                     FlowerId = order.FlowerId,
-                    FlowerName = context.Flowers.Include(orec => orec.Orders).FirstOrDefault(flowerName => flowerName.Id == order.FlowerId)?.FlowerName,
+                    FlowerName = order.Flower.FlowerName,
                     Count = order.Count,
                     Sum = order.Sum,
                     Status = order.Status,

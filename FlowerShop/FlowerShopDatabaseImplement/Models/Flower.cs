@@ -14,6 +14,6 @@ namespace FlowerShopDatabaseImplement.Models
         [ForeignKey("FlowerId")]
         public virtual List<FlowerComponent> FlowerComponents { get; set; }
         [ForeignKey("FlowerId")]
-        public virtual List<Order> Orders { get; set; }
+        public virtual List<Order> Orders { get; set; } = new List<Order>();
     }
 }
