@@ -39,7 +39,7 @@ namespace FlowerShopDatabaseImplement.Implements
             {
                 return context.Orders
                 .Include(rec => rec.Flower)
-                .Where(rec => rec.FlowerId == model.FlowerId)
+                .Where(rec => rec.Id.Equals(model.Id))
                 .Select(rec => new OrderViewModel
                 {
                     Id = rec.Id,
