@@ -27,17 +27,10 @@ namespace FlowerShopFileImplement.Implements
             {
                 return null;
             }
-            if (model.DateTo != null && model.DateFrom != null)
-            {
-                return source.Orders
-                .Where(rec => rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo)
-                .Select(CreateModel)
-                .ToList();
-            }
             return source.Orders
-            .Where(rec => rec.Id == model.Id)
-            .Select(CreateModel)
-            .ToList();
+            .Where(rec => (model.ClientId.HasValue && rec.ClientId == model.ClientId) || (!model.DateFrom.HasValue && !model.DateTo.HasValue && rec.DateCreate == model.DateCreate) ||
+            (model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate.Date >= model.DateFrom.Value.Date && rec.DateCreate.Date <= model.DateTo.Value.Date))
+            .Select(CreateModel).ToList();
         }
         public OrderViewModel GetElement(OrderBindingModel model)
         {
@@ -84,6 +77,7 @@ namespace FlowerShopFileImplement.Implements
         }
         private Order CreateModel(OrderBindingModel model, Order order)
         {
+            order.ClientId = (int)model.ClientId;
             order.FlowerId = model.FlowerId;
             order.Count = model.Count;
             order.Sum = model.Sum;
@@ -97,6 +91,7 @@ namespace FlowerShopFileImplement.Implements
             return new OrderViewModel
             {
                 Id = order.Id,
+                ClientId = order.ClientId,
                 FlowerId = order.FlowerId,
                 FlowerName = source.Flowers.FirstOrDefault(flowerName => flowerName.Id == order.FlowerId)?.FlowerName,
                 Count = order.Count,

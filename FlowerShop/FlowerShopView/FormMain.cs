@@ -33,7 +33,8 @@ namespace FlowerShopView
                     dataGridView.DataSource = list;
                     dataGridView.Columns[0].Visible = false;
                     dataGridView.Columns[1].Visible = false;
-                    dataGridView.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                    dataGridView.Columns[2].Visible = false;
+                    dataGridView.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                 }
             }
             catch (Exception ex)
@@ -132,6 +133,11 @@ namespace FlowerShopView
         private void растенияСКомпонентамиToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = Container.Resolve<FormReportComponentsFlower>();
+            form.ShowDialog();
+        }
+        private void клиентыToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormClients>();
             form.ShowDialog();
         }
     }
