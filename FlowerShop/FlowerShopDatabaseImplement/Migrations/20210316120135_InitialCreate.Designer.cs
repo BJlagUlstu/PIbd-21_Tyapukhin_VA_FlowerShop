@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FlowerShopDatabaseImplement.Migrations
 {
     [DbContext(typeof(FlowerShopDatabase))]
-    [Migration("20210313181640_InitialCreate")]
+    [Migration("20210316120135_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -113,6 +113,54 @@ namespace FlowerShopDatabaseImplement.Migrations
                     b.ToTable("Orders");
                 });
 
+            modelBuilder.Entity("FlowerShopDatabaseImplement.Models.Storehouse", b =>
+                {
+                    b.Property<int>("StorehouseId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("DateCreate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StorehouseName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("StorehouseId");
+
+                    b.ToTable("Storehouses");
+                });
+
+            modelBuilder.Entity("FlowerShopDatabaseImplement.Models.StorehouseComponent", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ComponentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Count")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StorehouseId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ComponentId");
+
+                    b.HasIndex("StorehouseId");
+
+                    b.ToTable("StorehouseComponents");
+                });
+
             modelBuilder.Entity("FlowerShopDatabaseImplement.Models.FlowerComponent", b =>
                 {
                     b.HasOne("FlowerShopDatabaseImplement.Models.Component", "Component")
@@ -133,6 +181,21 @@ namespace FlowerShopDatabaseImplement.Migrations
                     b.HasOne("FlowerShopDatabaseImplement.Models.Flower", null)
                         .WithMany("Orders")
                         .HasForeignKey("FlowerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("FlowerShopDatabaseImplement.Models.StorehouseComponent", b =>
+                {
+                    b.HasOne("FlowerShopDatabaseImplement.Models.Component", "Component")
+                        .WithMany()
+                        .HasForeignKey("ComponentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FlowerShopDatabaseImplement.Models.Storehouse", "Storehouse")
+                        .WithMany("StorehouseComponents")
+                        .HasForeignKey("StorehouseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

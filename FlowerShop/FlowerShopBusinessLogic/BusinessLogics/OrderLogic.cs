@@ -10,9 +10,11 @@ namespace FlowerShopBusinessLogic.BusinessLogics
     public class OrderLogic
     {
         private readonly IOrderStorage _orderStorage;
-        public OrderLogic(IOrderStorage orderStorage)
+        private readonly IStorehouseStorage _storehouseStorage;
+        public OrderLogic(IOrderStorage orderStorage, IStorehouseStorage storehouseStorage)
         {
             _orderStorage = orderStorage;
+            _storehouseStorage = storehouseStorage;
         }
         public List<OrderViewModel> Read(OrderBindingModel model)
         {
@@ -50,6 +52,10 @@ namespace FlowerShopBusinessLogic.BusinessLogics
             if (order.Status != OrderStatus.Принят)
             {
                 throw new Exception("Заказ не в статусе \"Принят\"");
+            }
+            if (!_storehouseStorage.writeOffComponentsFromStorehouse(model.OrderId))
+            {
+                throw new Exception("На складе нет необходимых компонентов");
             }
             _orderStorage.Update(new OrderBindingModel
             {
