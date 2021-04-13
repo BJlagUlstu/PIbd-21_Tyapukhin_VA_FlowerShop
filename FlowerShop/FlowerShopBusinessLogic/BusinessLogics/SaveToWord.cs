@@ -18,28 +18,40 @@ namespace FlowerShopBusinessLogic.BusinessLogics
                 Body docBody = mainPart.Document.AppendChild(new Body());
                 docBody.AppendChild(CreateParagraph(new WordParagraph
                 {
-                    Texts = new List<(string, WordTextProperties)> { (info.Title, new WordTextProperties {Bold = true, Size = "24", } ) },
+                    Texts = new List<(string, WordTextProperties)> { (info.Title, new WordTextProperties {Bold = true, Size = "30" } ) },
                     TextProperties = new WordTextProperties
                     {
-                        Size = "24",
+                        Size = "30",
                         JustificationValues = JustificationValues.Center
                     }
                 }));
-                if (info.Flowers != null)
+                if (info.Storehouses != null)
                 {
-                    foreach (var flower in info.Flowers)
+                    Table table = new Table();
+                    TableProperties tableProp = new TableProperties();
+                    TableStyle tableStyle = new TableStyle() { Val = "TableGrid" };
+
+                    table.AppendChild(CreateTableBorders());
+
+                    TableWidth tableWidth = new TableWidth() { Width = "5000", Type = TableWidthUnitValues.Pct };
+
+                    tableProp.Append(tableStyle, tableWidth);
+                    table.AppendChild(tableProp);
+
+                    TableGrid tg = new TableGrid(new GridColumn(), new GridColumn(), new GridColumn());
+                    table.AppendChild(tg);
+
+                    table.AppendChild(CreateTableRow(new List<string>() {"Название", "ФИО ответственного", "Дата создания"}, true));
+
+                    foreach (var storehouse in info.Storehouses)
                     {
-                        docBody.AppendChild(CreateParagraph(new WordParagraph
-                        {
-                            Texts = new List<(string, WordTextProperties)> { (flower.FlowerName + ": ", new WordTextProperties {Bold = true, Size = "24", }),
-                            (flower.Price.ToString(), new WordTextProperties { Size = "24", })},
-                            TextProperties = new WordTextProperties
-                            {
-                                Size = "24",
-                                JustificationValues = JustificationValues.Both
-                            }
-                        })); ;
+                        table.AppendChild(CreateTableRow(new List<string>() {
+                            storehouse.StorehouseName,
+                            storehouse.FullName,
+                            storehouse.DateCreate.ToString()
+                        }, false));
                     }
+                    docBody.AppendChild(table);
                     docBody.AppendChild(CreateSectionProperties());
                 }
                 wordDocument.MainDocumentPart.Document.Save();
@@ -111,6 +123,81 @@ namespace FlowerShopBusinessLogic.BusinessLogics
                 return properties;
             }
             return null;
+        }
+        private static TableRow CreateTableRow(List<string> texts, bool header)
+        {
+            TableRow tr = new TableRow();
+            foreach (string text in texts)
+            {
+                if (header)
+                {
+                    TableCell tc = new TableCell(CreateParagraph(new WordParagraph
+                    {
+                        Texts = new List<(string, WordTextProperties)> { (text, new WordTextProperties { Bold = true, Size = "28" }) },
+                        TextProperties = new WordTextProperties
+                        {
+                            Size = "28",
+                            JustificationValues = JustificationValues.Both
+                        }
+                    }));
+                    tr.Append(tc);
+                } 
+                else
+                {
+                    TableCell tc = new TableCell(CreateParagraph(new WordParagraph
+                    {
+                        Texts = new List<(string, WordTextProperties)> { (text, new WordTextProperties { Size = "24" }) },
+                        TextProperties = new WordTextProperties
+                        {
+                            Size = "24",
+                            JustificationValues = JustificationValues.Both
+                        }
+                    }));
+                    tr.Append(tc);
+                }
+            }
+            return tr;
+        }
+        private static TableBorders CreateTableBorders()
+        {
+            TableBorders tableBorders = new TableBorders();
+
+            BottomBorder bottomBorder = new BottomBorder();
+            bottomBorder.Val = new EnumValue<BorderValues>(BorderValues.Thick);
+            bottomBorder.Color = "000000";
+
+            tableBorders.AppendChild(bottomBorder);
+
+            TopBorder topBorder = new TopBorder();
+            topBorder.Val = new EnumValue<BorderValues>(BorderValues.Thick);
+            topBorder.Color = "000000";
+
+            tableBorders.AppendChild(topBorder);
+
+            InsideHorizontalBorder insHorBorder = new InsideHorizontalBorder();
+            insHorBorder.Val = new EnumValue<BorderValues>(BorderValues.Thick);
+            insHorBorder.Color = "000000";
+
+            tableBorders.AppendChild(insHorBorder);
+
+            InsideVerticalBorder insVerBorder = new InsideVerticalBorder();
+            insVerBorder.Val = new EnumValue<BorderValues>(BorderValues.Thick);
+            insVerBorder.Color = "000000";
+
+            tableBorders.AppendChild(insVerBorder);
+
+            LeftBorder leftBorder = new LeftBorder();
+            leftBorder.Val = new EnumValue<BorderValues>(BorderValues.Thick);
+            leftBorder.Color = "000000";
+
+            tableBorders.AppendChild(leftBorder);
+
+            RightBorder rightBorder = new RightBorder();
+            rightBorder.Val = new EnumValue<BorderValues>(BorderValues.ThickThinMediumGap);
+            rightBorder.Color = "000000";
+
+            tableBorders.AppendChild(rightBorder);
+            return tableBorders;
         }
     }
 }

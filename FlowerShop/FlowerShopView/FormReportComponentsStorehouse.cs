@@ -6,12 +6,12 @@ using Unity;
 
 namespace FlowerShopView
 {
-    public partial class FormReportComponentsFlower : Form
+    public partial class FormReportComponentsStorehouse : Form
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
         private readonly ReportLogic logic;
-        public FormReportComponentsFlower(ReportLogic _logic)
+        public FormReportComponentsStorehouse(ReportLogic _logic)
         {
             InitializeComponent();
             logic = _logic;
@@ -24,7 +24,7 @@ namespace FlowerShopView
                 {
                     try
                     {
-                        logic.SaveComponentFlowerToExcelFile(new ReportBindingModel
+                        logic.SaveComponentStorehouseToExcelFile(new ReportBindingModel
                         {
                             FileName = dialog.FileName
                         });
@@ -37,17 +37,17 @@ namespace FlowerShopView
                 }
             }
         }
-        private void FormReportComponentsFlower_Load(object sender, EventArgs e)
+        private void FormReportComponentsStorehouse_Load(object sender, EventArgs e)
         {
             try
             {
-                var dict = logic.GetComponentsFlower();
+                var dict = logic.GetComponentsStorehouse();
                 if (dict != null)
                 {
                     dataGridView.Rows.Clear();
                     foreach (var elem in dict)
                     {
-                        dataGridView.Rows.Add(new object[] { elem.FlowerName, "", "" });
+                        dataGridView.Rows.Add(new object[] { elem.StorehouseName, "", "" });
                         foreach (var listElem in elem.Components)
                         {
                             dataGridView.Rows.Add(new object[] { "", listElem.Item1, listElem.Item2 });

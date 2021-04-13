@@ -14,11 +14,13 @@ namespace FlowerShopBusinessLogic.BusinessLogics
         private readonly IComponentStorage _componentStorage;
         private readonly IFlowerStorage _flowerStorage;
         private readonly IOrderStorage _orderStorage;
-        public ReportLogic(IFlowerStorage flowerStorage, IComponentStorage componentStorage, IOrderStorage orderStorage)
+        private readonly IStorehouseStorage _storehouseStorage;
+        public ReportLogic(IFlowerStorage flowerStorage, IComponentStorage componentStorage, IOrderStorage orderStorage, IStorehouseStorage storehouseStorage)
         {
             _flowerStorage = flowerStorage;
             _componentStorage = componentStorage;
             _orderStorage = orderStorage;
+            _storehouseStorage = storehouseStorage;
         }
         // Получение списка компонент с указанием, в каких растениях используются
         public List<ReportFlowerComponentViewModel> GetFlowerComponent()
@@ -47,67 +49,61 @@ namespace FlowerShopBusinessLogic.BusinessLogics
             return list;
         }
         // Получение списка заказов за определенный период
-        public List<ReportOrdersViewModel> GetOrders(ReportBindingModel model)
+        public List<ReportOrdersViewModel> GetOrders()
         {
-            return _orderStorage.GetFilteredList(new OrderBindingModel
+            return _orderStorage.GetFullList().GroupBy(x => x.DateCreate.Date)
+            .Select(g => new ReportOrdersViewModel
             {
-                DateFrom = model.DateFrom,
-                DateTo = model.DateTo
-            })
-            .Select(x => new ReportOrdersViewModel
-            {
-                DateCreate = x.DateCreate,
-                FlowerName = x.FlowerName,
-                Count = x.Count,
-                Sum = x.Sum,
-                Status = ((OrderStatus)Enum.Parse(typeof(OrderStatus), x.Status.ToString())).ToString()
+                DateCreate = g.FirstOrDefault().DateCreate,
+                Count = g.Count(),
+                Sum = g.Sum(s => s.Sum)
             })
            .ToList();
         }
-        // Получение списка растений с указанием используемых компонентов
-        public List<ReportFlowerComponentViewModel> GetComponentsFlower()
+        // Получение списка складов с указанием используемых компонентов
+        public List<ReportStorehouseComponentViewModel> GetComponentsStorehouse()
         {
             var components = _componentStorage.GetFullList();
-            var flowers = _flowerStorage.GetFullList();
-            var list = new List<ReportFlowerComponentViewModel>();
-            foreach (var flower in flowers)
+            var storehouses = _storehouseStorage.GetFullList();
+            var list = new List<ReportStorehouseComponentViewModel>();
+            foreach (var storehouse in storehouses)
             {
-                var record = new ReportFlowerComponentViewModel
+                var record = new ReportStorehouseComponentViewModel
                 {
-                    FlowerName = flower.FlowerName,
+                    StorehouseName = storehouse.StorehouseName,
                     Components = new List<Tuple<string, int>>(),
                     TotalCount = 0
                 };
                 foreach (var component in components)
                 {
-                    if (flower.FlowerComponents.ContainsKey(component.Id))
+                    if (storehouse.StorehouseComponents.ContainsKey(component.Id))
                     {
-                        record.Components.Add(new Tuple<string, int>(component.ComponentName, flower.FlowerComponents[component.Id].Item2));
-                        record.TotalCount += flower.FlowerComponents[component.Id].Item2;
+                        record.Components.Add(new Tuple<string, int>(component.ComponentName, storehouse.StorehouseComponents[component.Id].Item2));
+                        record.TotalCount += storehouse.StorehouseComponents[component.Id].Item2;
                     }
                 }
                 list.Add(record);
             }
             return list;
         }
-        // Сохранение растения в файл-Word
-        public void SaveFlowersToWordFile(ReportBindingModel model)
+        // Сохранение складов в файл-Word
+        public void SaveStorehousesToWordFile(ReportBindingModel model)
         {
             SaveToWord.CreateDoc(new WordInfo
             {
                 FileName = model.FileName,
-                Title = "Список растений",
-                Flowers = _flowerStorage.GetFullList()
+                Title = "Список складов",
+                Storehouses = _storehouseStorage.GetFullList()
             });
         }
-        // Сохранение растений с указанием компонент в файл-Excel
-        public void SaveComponentFlowerToExcelFile(ReportBindingModel model)
+        // Сохранение склада с указанием компонент в файл-Excel
+        public void SaveComponentStorehouseToExcelFile(ReportBindingModel model)
         {
             SaveToExcel.CreateDoc(new ExcelInfo
             {
                 FileName = model.FileName,
-                Title = "Список растений",
-                ComponentsFlower = GetComponentsFlower()
+                Title = "Список складов",
+                ComponentsStorehouse = GetComponentsStorehouse()
             });
         }
         // Сохранение заказов в файл-Pdf
@@ -120,7 +116,7 @@ namespace FlowerShopBusinessLogic.BusinessLogics
                 Title = "Список заказов",
                 DateFrom = model.DateFrom.Value,
                 DateTo = model.DateTo.Value,
-                Orders = GetOrders(model)
+                Orders = GetOrders()
             });
         }
     }

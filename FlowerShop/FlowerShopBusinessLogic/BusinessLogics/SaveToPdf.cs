@@ -18,12 +18,12 @@ namespace FlowerShopBusinessLogic.BusinessLogics
             paragraph.Format.SpaceAfter = "1cm";
             paragraph.Format.Alignment = ParagraphAlignment.Center;
             paragraph.Style = "NormalTitle";
-            paragraph = section.AddParagraph($"с {info.DateFrom.ToShortDateString()} по { info.DateTo.ToShortDateString()}");
+            paragraph = section.AddParagraph("за весь период");
             paragraph.Format.SpaceAfter = "1cm";
             paragraph.Format.Alignment = ParagraphAlignment.Center;
             paragraph.Style = "Normal";
             var table = document.LastSection.AddTable();
-            List<string> columns = new List<string> { "3cm", "5.5cm", "2cm", "2.5cm", "3.25cm" };
+            List<string> columns = new List<string> { "6cm", "5cm", "5.25cm" };
             foreach (var elem in columns)
             {
                 table.AddColumn(elem);
@@ -31,7 +31,7 @@ namespace FlowerShopBusinessLogic.BusinessLogics
             CreateRow(new PdfRowParameters
             {
                 Table = table,
-                Texts = new List<string> { "Дата заказа", "Растение", "Кол-во", "Сумма", "Статус" },
+                Texts = new List<string> { "Дата заказа", "Кол-во", "Сумма" },
                 Style = "NormalTitle",
                 ParagraphAlignment = ParagraphAlignment.Center
             });
@@ -40,7 +40,7 @@ namespace FlowerShopBusinessLogic.BusinessLogics
                 CreateRow(new PdfRowParameters
                 {
                     Table = table,
-                    Texts = new List<string> { order.DateCreate.ToShortDateString(), order.FlowerName, order.Count.ToString(), order.Sum.ToString(), order.Status.ToString() },
+                    Texts = new List<string> { order.DateCreate.ToShortDateString(), order.Count.ToString(), order.Sum.ToString() },
                     Style = "Normal",
                     ParagraphAlignment = ParagraphAlignment.Left
                 });

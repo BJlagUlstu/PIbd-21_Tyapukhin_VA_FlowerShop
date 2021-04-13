@@ -220,11 +220,11 @@
     <Compile Include="FormComponent.Designer.cs">
       <DependentUpon>FormComponent.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormReportComponentsFlower.cs">
+    <Compile Include="FormReportComponentsStorehouse.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormReportComponentsFlower.Designer.cs">
-      <DependentUpon>FormReportComponentsFlower.cs</DependentUpon>
+    <Compile Include="FormReportComponentsStorehouse.Designer.cs">
+      <DependentUpon>FormReportComponentsStorehouse.cs</DependentUpon>
     </Compile>
     <Compile Include="FormComponents.cs">
       <SubType>Form</SubType>
@@ -307,8 +307,8 @@
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormReportComponentsFlower.resx">
-      <DependentUpon>FormReportComponentsFlower.cs</DependentUpon>
+    <EmbeddedResource Include="FormReportComponentsStorehouse.resx">
+      <DependentUpon>FormReportComponentsStorehouse.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormReportOrders.resx">
       <DependentUpon>FormReportOrders.cs</DependentUpon>

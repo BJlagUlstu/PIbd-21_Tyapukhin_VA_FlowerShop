@@ -3,7 +3,6 @@ using FlowerShopBusinessLogic.BusinessLogics;
 using System;
 using System.Windows.Forms;
 using Unity;
-using Microsoft.Reporting.WebForms;
 
 namespace FlowerShopView
 {
@@ -118,20 +117,20 @@ namespace FlowerShopView
             var form = Container.Resolve<FormReportOrders>();
             form.ShowDialog();
         }
-        private void списокРастенийToolStripMenuItem_Click(object sender, EventArgs e)
+        private void списокСкладовToolStripMenuItem_Click(object sender, EventArgs e)
         {
             using (var dialog = new SaveFileDialog { Filter = "docx|*.docx" })
             {
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    _report.SaveFlowersToWordFile(new ReportBindingModel { FileName = dialog.FileName });
+                    _report.SaveStorehousesToWordFile(new ReportBindingModel { FileName = dialog.FileName });
                     MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
         }
-        private void растенияСКомпонентамиToolStripMenuItem_Click(object sender, EventArgs e)
+        private void складыСКомпонентамиToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<FormReportComponentsFlower>();
+            var form = Container.Resolve<FormReportComponentsStorehouse>();
             form.ShowDialog();
         }
         private void складыToolStripMenuItem_Click(object sender, EventArgs e)

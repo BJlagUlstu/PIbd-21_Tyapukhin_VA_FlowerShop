@@ -54,9 +54,9 @@ namespace FlowerShopBusinessLogic.BusinessLogics
                     CellToName = "C1"
                 });
                 uint rowIndex = 2;
-                if (info.ComponentsFlower != null)
+                if (info.ComponentsStorehouse != null)
                 {
-                    foreach (var pc in info.ComponentsFlower)
+                    foreach (var pc in info.ComponentsStorehouse)
                     {
                         InsertCellInWorksheet(new ExcelCellParameters
                         {
@@ -64,7 +64,7 @@ namespace FlowerShopBusinessLogic.BusinessLogics
                             ShareStringPart = shareStringPart,
                             ColumnName = "A",
                             RowIndex = rowIndex,
-                            Text = pc.FlowerName,
+                            Text = pc.StorehouseName,
                             StyleIndex = 0U
                         });
                         rowIndex++;
