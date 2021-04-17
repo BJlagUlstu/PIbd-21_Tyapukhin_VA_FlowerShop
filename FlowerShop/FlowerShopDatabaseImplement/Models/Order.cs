@@ -9,6 +9,7 @@ namespace FlowerShopDatabaseImplement.Models
         public int Id { get; set; }
         public int ClientId { get; set; }
         public int FlowerId { get; set; }
+        public int? ImplementerId { get; set; }
         [Required]
         public int Count { get; set; }
         [Required]
@@ -19,5 +20,7 @@ namespace FlowerShopDatabaseImplement.Models
         public DateTime DateCreate { get; set; }
         public DateTime? DateImplement { get; set; }
         public virtual Flower Flower { get; set; }
+        public virtual Client Client { get; set; }
+        public virtual Implementer Implementer { get; set; }
     }
 }

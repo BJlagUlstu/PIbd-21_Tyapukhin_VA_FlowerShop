@@ -3,7 +3,6 @@ using FlowerShopBusinessLogic.BusinessLogics;
 using System;
 using System.Windows.Forms;
 using Unity;
-using Microsoft.Reporting.WebForms;
 
 namespace FlowerShopView
 {
@@ -13,11 +12,13 @@ namespace FlowerShopView
         public new IUnityContainer Container { get; set; }
         private readonly OrderLogic _orderLogic;
         private ReportLogic _report;
-        public FormMain(OrderLogic orderLogic, ReportLogic report)
+        private readonly WorkModeling workModeling;
+        public FormMain(OrderLogic orderLogic, ReportLogic report, WorkModeling modeling)
         {
             InitializeComponent();
             _orderLogic = orderLogic;
             _report = report;
+            workModeling = modeling;
         }
         private void FormMain_Load(object sender, EventArgs e)
         {
@@ -34,7 +35,8 @@ namespace FlowerShopView
                     dataGridView.Columns[0].Visible = false;
                     dataGridView.Columns[1].Visible = false;
                     dataGridView.Columns[2].Visible = false;
-                    dataGridView.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                    dataGridView.Columns[3].Visible = false;
+                    dataGridView.Columns[6].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                 }
             }
             catch (Exception ex)
@@ -139,6 +141,16 @@ namespace FlowerShopView
         {
             var form = Container.Resolve<FormClients>();
             form.ShowDialog();
+        }
+        private void исполнителиToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormImplementers>();
+            form.ShowDialog();
+        }
+        private void запускРаботToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            workModeling.DoWork();
+            LoadData();
         }
     }
 }

@@ -1,10 +1,10 @@
 ﻿using FlowerShopBusinessLogic.BindingModels;
+using FlowerShopBusinessLogic.Enums;
 using FlowerShopBusinessLogic.Interfaces;
 using FlowerShopBusinessLogic.ViewModels;
 using FlowerShopListImplement.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace FlowerShopListImplement.Implements
 {
@@ -30,12 +30,19 @@ namespace FlowerShopListImplement.Implements
             {
                 return null;
             }
-            return source.Orders
-            .Where(rec => (!model.DateFrom.HasValue && !model.DateTo.HasValue && rec.DateCreate.Date == model.DateCreate.Date) ||
-            (model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate.Date >= model.DateFrom.Value.Date && rec.DateCreate.Date <= model.DateTo.Value.Date) ||
-            (model.ClientId.HasValue && rec.ClientId == model.ClientId))
-            .Select(CreateModel)
-            .ToList();
+            List<OrderViewModel> result = new List<OrderViewModel>();
+            foreach (var order in source.Orders)
+            {
+                if ((!model.DateFrom.HasValue && !model.DateTo.HasValue && order.DateCreate.Date == model.DateCreate.Date) || 
+                    (model.DateFrom.HasValue && model.DateTo.HasValue && order.DateCreate.Date >= model.DateFrom.Value.Date && 
+                    order.DateCreate.Date <= model.DateTo.Value.Date) || (model.ClientId.HasValue && order.ClientId == model.ClientId) || 
+                    (model.FreeOrders.HasValue && model.FreeOrders.Value && order.Status == OrderStatus.Принят) ||
+                    (model.ImplementerId.HasValue && order.ImplementerId == model.ImplementerId && order.Status == OrderStatus.Выполняется))
+                {
+                    result.Add(CreateModel(order));
+                }
+            }
+            return result;
         }
         public OrderViewModel GetElement(OrderBindingModel model)
         {
@@ -99,6 +106,8 @@ namespace FlowerShopListImplement.Implements
         private Order CreateModel(OrderBindingModel model, Order order)
         {
             order.FlowerId = model.FlowerId;
+            order.ClientId = (int)model.ClientId;
+            order.ImplementerId = model.ImplementerId;
             order.Count = model.Count;
             order.Sum = model.Sum;
             order.Status = model.Status;
@@ -117,10 +126,30 @@ namespace FlowerShopListImplement.Implements
                     break;
                 }
             }
+            string clientFIO = null;
+            foreach (var client in source.Clients)
+            {
+                if (client.Id == order.ClientId)
+                {
+                    clientFIO = client.ClientFIO;
+                }
+            }
+            string ImplementerFIO = null;
+            foreach (var implementer in source.Implementers)
+            {
+                if (implementer.Id == order.FlowerId)
+                {
+                    ImplementerFIO = implementer.ImplementerFIO;
+                }
+            }
             return new OrderViewModel
             {
                 Id = order.Id,
                 FlowerId = order.FlowerId,
+                ClientId = order.ClientId,
+                ImplementerId = order.ImplementerId,
+                ImplementerFIO = ImplementerFIO,
+                ClientFIO = clientFIO,
                 FlowerName = flowerName,
                 Count = order.Count,
                 Sum = order.Sum,
