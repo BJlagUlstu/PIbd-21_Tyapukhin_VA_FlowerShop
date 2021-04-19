@@ -30,7 +30,7 @@
         {
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.справочникиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.компонентыToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.компонентыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.растенияToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.отчетыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.списокЗаказовToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -60,18 +60,18 @@
             // справочникиToolStripMenuItem
             // 
             this.справочникиToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.компонентыToolStripMenuItem1,
+            this.компонентыToolStripMenuItem,
             this.растенияToolStripMenuItem});
             this.справочникиToolStripMenuItem.Name = "справочникиToolStripMenuItem";
             this.справочникиToolStripMenuItem.Size = new System.Drawing.Size(94, 20);
             this.справочникиToolStripMenuItem.Text = "Справочники";
             // 
-            // компонентыToolStripMenuItem1
+            // компонентыToolStripMenuItem
             // 
-            this.компонентыToolStripMenuItem1.Name = "компонентыToolStripMenuItem1";
-            this.компонентыToolStripMenuItem1.Size = new System.Drawing.Size(145, 22);
-            this.компонентыToolStripMenuItem1.Text = "Компоненты";
-            this.компонентыToolStripMenuItem1.Click += new System.EventHandler(this.КомпонентыToolStripMenuItem_Click);
+            this.компонентыToolStripMenuItem.Name = "компонентыToolStripMenuItem";
+            this.компонентыToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.компонентыToolStripMenuItem.Text = "Компоненты";
+            this.компонентыToolStripMenuItem.Click += new System.EventHandler(this.КомпонентыToolStripMenuItem_Click);
             // 
             // растенияToolStripMenuItem
             // 
@@ -197,7 +197,7 @@
 
         private System.Windows.Forms.MenuStrip menuStrip;
         private System.Windows.Forms.ToolStripMenuItem справочникиToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem компонентыToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem компонентыToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem растенияToolStripMenuItem;
         private System.Windows.Forms.DataGridView dataGridView;
         private System.Windows.Forms.Button buttonCreateOrder;
