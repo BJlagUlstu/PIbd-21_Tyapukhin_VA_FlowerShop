@@ -161,7 +161,8 @@ namespace FlowerShopFileImplement
                     new XElement("Sum", order.Sum),
                     new XElement("Status", order.Status),
                     new XElement("DateCreate", order.DateCreate.ToString()),
-                    new XElement("DateImplement", order.DateImplement.ToString())));
+                    new XElement("DateImplement", order.DateImplement.ToString()),
+                    new XElement("ClientId", order.ClientId)));
                 }
                 XDocument xDocument = new XDocument(xElement);
                 xDocument.Save(OrderFileName);
