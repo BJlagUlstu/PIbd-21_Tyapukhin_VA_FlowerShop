@@ -22,32 +22,6 @@ namespace FlowerShopBusinessLogic.BusinessLogics
             _orderStorage = orderStorage;
             _storehouseStorage = storehouseStorage;
         }
-        // Получение списка компонент с указанием, в каких растениях используются
-        public List<ReportFlowerComponentViewModel> GetFlowerComponent()
-        {
-            var components = _componentStorage.GetFullList();
-            var flowers = _flowerStorage.GetFullList();
-            var list = new List<ReportFlowerComponentViewModel>();
-            foreach (var component in components)
-            {
-                var record = new ReportFlowerComponentViewModel
-                {
-                    ComponentName = component.ComponentName,
-                    Flowers = new List<Tuple<string, int>>(),
-                    TotalCount = 0
-                };
-                foreach (var flower in flowers)
-                {
-                    if (flower.FlowerComponents.ContainsKey(component.Id))
-                    {
-                        record.Flowers.Add(new Tuple<string, int>(flower.FlowerName, flower.FlowerComponents[component.Id].Item2));
-                        record.TotalCount += flower.FlowerComponents[component.Id].Item2;
-                    }
-                }
-                list.Add(record);
-            }
-            return list;
-        }
         // Получение списка заказов за определенный период
         public List<ReportOrdersViewModel> GetOrders()
         {

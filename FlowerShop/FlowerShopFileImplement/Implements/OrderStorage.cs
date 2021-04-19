@@ -35,7 +35,7 @@ namespace FlowerShopFileImplement.Implements
                 .ToList();
             }
             return source.Orders
-            .Where(rec => rec.Id == model.Id)
+            .Where(rec => rec.DateCreate == model.DateCreate)
             .Select(CreateModel)
             .ToList();
         }
