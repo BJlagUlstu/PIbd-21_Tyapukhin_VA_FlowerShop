@@ -113,6 +113,7 @@ namespace FlowerShopListImplement.Implements
             order.Status = model.Status;
             order.DateCreate = model.DateCreate;
             order.DateImplement = model.DateImplement;
+            order.ClientId = (int)model.ClientId;
             return order;
         }
         private OrderViewModel CreateModel(Order order)
@@ -145,11 +146,11 @@ namespace FlowerShopListImplement.Implements
             return new OrderViewModel
             {
                 Id = order.Id,
-                FlowerId = order.FlowerId,
                 ClientId = order.ClientId,
+                ClientFIO = clientFIO,
+                FlowerId = order.FlowerId,
                 ImplementerId = order.ImplementerId,
                 ImplementerFIO = ImplementerFIO,
-                ClientFIO = clientFIO,
                 FlowerName = flowerName,
                 Count = order.Count,
                 Sum = order.Sum,
