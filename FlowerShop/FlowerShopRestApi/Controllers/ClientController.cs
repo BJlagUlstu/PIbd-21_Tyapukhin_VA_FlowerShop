@@ -13,13 +13,13 @@ namespace FlowerShopRestApi.Controllers
     public class ClientController : ControllerBase
     {
         private readonly ClientLogic _logic;
-        private readonly MailLogic _mailLogic;
+        private readonly MailLogic _mail;
         private readonly int _passwordMaxLength = 50;
         private readonly int _passwordMinLength = 10;
-        public ClientController(ClientLogic logic, MailLogic mailLogic)
+        public ClientController(ClientLogic logic, MailLogic mail)
         {
             _logic = logic;
-            _mailLogic = mailLogic;
+            _mail = mail;
         }
         [HttpGet]
         public ClientViewModel Login(string login, string password) => _logic.Read(new ClientBindingModel
@@ -37,7 +37,7 @@ namespace FlowerShopRestApi.Controllers
             _logic.CreateOrUpdate(model);
         } 
         [HttpGet]
-        public List<MessageInfoViewModel> GetMessages(int clientId) => _mailLogic.Read(new MessageInfoBindingModel { ClientId = clientId });
+        public List<MessageInfoViewModel> GetMessages(int clientId) => _mail.Read(new MessageInfoBindingModel { ClientId = clientId });
         private void CheckData(ClientBindingModel model)
         {
             if (!Regex.IsMatch(model.Email, @"^(?("")(""[^""]+?""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))" +

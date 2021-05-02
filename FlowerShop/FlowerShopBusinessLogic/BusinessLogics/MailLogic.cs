@@ -99,7 +99,7 @@ namespace FlowerShopBusinessLogic.BusinessLogics
             {
                 return;
             }
-            if (info.MessageStorage == null || info.ClientStorage == null)
+            if (info.MessageStorage == null)
             {
                 return;
             }

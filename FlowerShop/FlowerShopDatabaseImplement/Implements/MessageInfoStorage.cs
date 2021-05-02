@@ -35,8 +35,7 @@ namespace FlowerShopDatabaseImplement.Implements
             using (var context = new FlowerShopDatabase())
             {
                 return context.MessageInfoes
-                .Where(rec => (model.ClientId.HasValue && rec.ClientId == model.ClientId) ||
-                (!model.ClientId.HasValue && rec.DateDelivery.Date == model.DateDelivery.Date))
+                .Where(rec => (model.ClientId.HasValue && rec.ClientId == model.ClientId) || (!model.ClientId.HasValue && rec.DateDelivery.Date == model.DateDelivery.Date))
                 .Select(rec => new MessageInfoViewModel
                 {
                     MessageId = rec.MessageId,
