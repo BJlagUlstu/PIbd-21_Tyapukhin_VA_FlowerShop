@@ -87,10 +87,10 @@ namespace FlowerShopDatabaseImplement.Implements
                 {
                     try
                     {
-                        Flower p = new Flower { FlowerName = model.FlowerName, Price = model.Price };
-                        context.Flowers.Add(p);
+                        Flower flower = new Flower { FlowerName = model.FlowerName, Price = model.Price };
+                        context.Flowers.Add(flower);
                         context.SaveChanges();
-                        CreateModel(model, p, context);
+                        CreateModel(model, flower, context);
                         context.SaveChanges();
                         transaction.Commit();
                     }

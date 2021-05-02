@@ -176,16 +176,17 @@ namespace FlowerShopFileImplement
             if (Orders != null)
             {
                 var xElement = new XElement("Orders");
-                foreach (var component in Orders)
+                foreach (var order in Orders)
                 {
                     xElement.Add(new XElement("Order",
-                    new XAttribute("Id", component.Id),
-                    new XElement("FlowerId", component.FlowerId),
-                    new XElement("Count", component.Count),
-                    new XElement("Sum", component.Sum),
-                    new XElement("Status", component.Status),
-                    new XElement("DateCreate", component.DateCreate.ToString()),
-                    new XElement("DateImplement", component.DateImplement.ToString())));
+                    new XAttribute("Id", order.Id),
+                    new XElement("FlowerId", order.FlowerId),
+                    new XElement("Count", order.Count),
+                    new XElement("Sum", order.Sum),
+                    new XElement("Status", order.Status),
+                    new XElement("DateCreate", order.DateCreate.ToString()),
+                    new XElement("DateImplement", order.DateImplement.ToString()),
+                    new XElement("ClientId", order.ClientId)));
                 }
                 XDocument xDocument = new XDocument(xElement);
                 xDocument.Save(OrderFileName);

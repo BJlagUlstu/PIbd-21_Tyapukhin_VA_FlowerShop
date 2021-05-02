@@ -2,7 +2,7 @@
 
 namespace FlowerShopDatabaseImplement.Migrations
 {
-    public partial class AddClient : Migration
+    public partial class AddingClient : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
