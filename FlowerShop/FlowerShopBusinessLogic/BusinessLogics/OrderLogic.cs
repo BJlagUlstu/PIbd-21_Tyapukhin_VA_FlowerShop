@@ -128,7 +128,7 @@ namespace FlowerShopBusinessLogic.BusinessLogics
                     Id = order.ClientId
                 })?.Email,
                 Subject = $"Заказ №{order.Id}",
-                Text = $"Заказ №{order.Id} выполнен."
+                Text = $"Заказ №{order.Id} готов."
             });
         }
         public void PayOrder(ChangeStatusBindingModel model)
@@ -164,7 +164,7 @@ namespace FlowerShopBusinessLogic.BusinessLogics
                     Id = order.ClientId
                 })?.Email,
                 Subject = $"Заказ №{order.Id}",
-                Text = $"Заказ №{order.Id} готов."
+                Text = $"Заказ №{order.Id} оплачен."
             });
         }
     }

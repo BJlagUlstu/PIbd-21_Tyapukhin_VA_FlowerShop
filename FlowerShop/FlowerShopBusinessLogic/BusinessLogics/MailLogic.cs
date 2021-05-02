@@ -79,8 +79,7 @@ namespace FlowerShopBusinessLogic.BusinessLogics
                         objSmtpClient.UseDefaultCredentials = false;
                         objSmtpClient.EnableSsl = true;
                         objSmtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
-                        objSmtpClient.Credentials = new NetworkCredential(mailLogin,
-                        mailPassword);
+                        objSmtpClient.Credentials = new NetworkCredential(mailLogin, mailPassword);
                         await Task.Run(() => objSmtpClient.Send(objMailMessage));
                     }
                     catch (Exception)
