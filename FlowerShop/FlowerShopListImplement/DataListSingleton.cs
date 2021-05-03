@@ -11,6 +11,7 @@ namespace FlowerShopListImplement
         public List<Flower> Flowers { get; set; }
         public List<Storehouse> Storehouses { get; set; }
         public List<Client> Clients { get; set; }
+        public List<Implementer> Implementers { get; set; }
         private DataListSingleton()
         {
             Components = new List<Component>();
@@ -18,6 +19,7 @@ namespace FlowerShopListImplement
             Flowers = new List<Flower>();
             Clients = new List<Client>();
             Storehouses = new List<Storehouse>();
+            Implementers = new List<Implementer>();
         }
         public static DataListSingleton GetInstance()
         {

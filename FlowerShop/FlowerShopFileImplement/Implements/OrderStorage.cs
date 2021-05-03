@@ -1,4 +1,5 @@
 ﻿using FlowerShopBusinessLogic.BindingModels;
+using FlowerShopBusinessLogic.Enums;
 using FlowerShopBusinessLogic.Interfaces;
 using FlowerShopBusinessLogic.ViewModels;
 using FlowerShopFileImplement.Models;
@@ -80,6 +81,7 @@ namespace FlowerShopFileImplement.Implements
         private Order CreateModel(OrderBindingModel model, Order order)
         {
             order.ClientId = (int)model.ClientId;
+            order.ImplementerId = model.ImplementerId;
             order.FlowerId = model.FlowerId;
             order.Count = model.Count;
             order.Sum = model.Sum;
@@ -95,7 +97,9 @@ namespace FlowerShopFileImplement.Implements
                 Id = order.Id,
                 ClientId = order.ClientId,
                 FlowerId = order.FlowerId,
+                ImplementerId = order.ImplementerId,
                 ClientFIO = source.Clients.FirstOrDefault(rec => rec.Id == order.ClientId)?.ClientFIO,
+                ImplementerFIO = source.Implementers.FirstOrDefault(rec => rec.Id == order.ImplementerId)?.ImplementerFIO,
                 FlowerName = source.Flowers.FirstOrDefault(flowerName => flowerName.Id == order.FlowerId)?.FlowerName,
                 Count = order.Count,
                 Sum = order.Sum,
