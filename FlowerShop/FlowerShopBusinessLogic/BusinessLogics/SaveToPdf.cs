@@ -9,7 +9,7 @@ namespace FlowerShopBusinessLogic.BusinessLogics
     class SaveToPdf
     {
         [System.Obsolete]
-        public static void CreateDoc(PdfInfo info)
+        public static void CreateDocOrdersAllDates(PdfInfoOrdersAllDates info)
         {
             Document document = new Document();
             DefineStyles(document);
@@ -41,6 +41,50 @@ namespace FlowerShopBusinessLogic.BusinessLogics
                 {
                     Table = table,
                     Texts = new List<string> { order.DateCreate.ToShortDateString(), order.Count.ToString(), order.Sum.ToString() },
+                    Style = "Normal",
+                    ParagraphAlignment = ParagraphAlignment.Left
+                });
+            }
+            PdfDocumentRenderer renderer = new PdfDocumentRenderer(true, PdfSharp.Pdf.PdfFontEmbedding.Always)
+            {
+                Document = document
+            };
+            renderer.RenderDocument();
+            renderer.PdfDocument.Save(info.FileName);
+        }
+        [System.Obsolete]
+        public static void CreateDoc(PdfInfo info)
+        {
+            Document document = new Document();
+            DefineStyles(document);
+            Section section = document.AddSection();
+            Paragraph paragraph = section.AddParagraph(info.Title);
+            paragraph.Format.SpaceAfter = "1cm";
+            paragraph.Format.Alignment = ParagraphAlignment.Center;
+            paragraph.Style = "NormalTitle";
+            paragraph = section.AddParagraph($"с {info.DateFrom.ToShortDateString()} по { info.DateTo.ToShortDateString()}");
+            paragraph.Format.SpaceAfter = "1cm";
+            paragraph.Format.Alignment = ParagraphAlignment.Center;
+            paragraph.Style = "Normal";
+            var table = document.LastSection.AddTable();
+            List<string> columns = new List<string> { "3cm", "5.5cm", "2cm", "2.5cm", "3.25cm" };
+            foreach (var elem in columns)
+            {
+                table.AddColumn(elem);
+            }
+            CreateRow(new PdfRowParameters
+            {
+                Table = table,
+                Texts = new List<string> { "Дата заказа", "Растение", "Кол-во", "Сумма", "Статус" },
+                Style = "NormalTitle",
+                ParagraphAlignment = ParagraphAlignment.Center
+            });
+            foreach (var order in info.Orders)
+            {
+                CreateRow(new PdfRowParameters
+                {
+                    Table = table,
+                    Texts = new List<string> { order.DateCreate.ToShortDateString(), order.FlowerName, order.Count.ToString(), order.Sum.ToString(), order.Status.ToString() },
                     Style = "Normal",
                     ParagraphAlignment = ParagraphAlignment.Left
                 });

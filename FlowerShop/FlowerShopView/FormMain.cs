@@ -114,7 +114,7 @@ namespace FlowerShopView
         }
         private void списокЗаказовToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<FormReportOrders>();
+            var form = Container.Resolve<FormReportOrdersAllDates>();
             form.ShowDialog();
         }
         private void списокСкладовToolStripMenuItem_Click(object sender, EventArgs e)
@@ -141,6 +141,27 @@ namespace FlowerShopView
         private void пополнитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = Container.Resolve<FormAddComponent>();
+            form.ShowDialog();
+        }
+        private void списокРастенийToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var dialog = new SaveFileDialog { Filter = "docx|*.docx" })
+            {
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    _report.SaveFlowersToWordFile(new ReportBindingModel { FileName = dialog.FileName });
+                    MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+        }
+        private void растенияСКомпонентамиToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormReportComponentsFlower>();
+            form.ShowDialog();
+        }
+        private void списокЗаказовToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormReportOrders>();
             form.ShowDialog();
         }
     }

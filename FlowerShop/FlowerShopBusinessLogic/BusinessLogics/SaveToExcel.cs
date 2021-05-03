@@ -107,6 +107,59 @@ namespace FlowerShopBusinessLogic.BusinessLogics
                     }
                     workbookpart.Workbook.Save();
                 }
+                if (info.ComponentsFlower != null)
+                {
+                    foreach (var pc in info.ComponentsFlower)
+                    {
+                        InsertCellInWorksheet(new ExcelCellParameters
+                        {
+                            Worksheet = worksheetPart.Worksheet,
+                            ShareStringPart = shareStringPart,
+                            ColumnName = "A",
+                            RowIndex = rowIndex,
+                            Text = pc.FlowerName,
+                            StyleIndex = 0U
+                        });
+                        rowIndex++;
+
+                        foreach (var component in pc.Components)
+                        {
+                            InsertCellInWorksheet(new ExcelCellParameters
+                            {
+                                Worksheet = worksheetPart.Worksheet,
+                                ShareStringPart = shareStringPart,
+                                ColumnName = "B",
+                                RowIndex = rowIndex,
+                                Text = component.Item1,
+                                StyleIndex = 1U
+                            });
+
+                            InsertCellInWorksheet(new ExcelCellParameters
+                            {
+                                Worksheet = worksheetPart.Worksheet,
+                                ShareStringPart = shareStringPart,
+                                ColumnName = "C",
+                                RowIndex = rowIndex,
+                                Text = component.Item2.ToString(),
+                                StyleIndex = 1U
+                            });
+
+                            rowIndex++;
+                        }
+
+                        InsertCellInWorksheet(new ExcelCellParameters
+                        {
+                            Worksheet = worksheetPart.Worksheet,
+                            ShareStringPart = shareStringPart,
+                            ColumnName = "C",
+                            RowIndex = rowIndex,
+                            Text = pc.TotalCount.ToString(),
+                            StyleIndex = 0U
+                        });
+                        rowIndex++;
+                    }
+                    workbookpart.Workbook.Save();
+                }
             }
         }
         // Настройка стилей для файла

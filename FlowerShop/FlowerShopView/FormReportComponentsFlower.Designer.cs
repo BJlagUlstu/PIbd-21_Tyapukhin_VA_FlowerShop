@@ -1,6 +1,6 @@
 ﻿namespace FlowerShopView
 {
-    partial class FormReportComponentsStorehouse
+    partial class FormReportComponentsFlower
     {
         /// <summary>
         /// Required designer variable.
@@ -30,7 +30,7 @@
         {
             this.buttonSaveToExcel = new System.Windows.Forms.Button();
             this.dataGridView = new System.Windows.Forms.DataGridView();
-            this.Storehouse = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Flower = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Component = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Count = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
@@ -50,7 +50,7 @@
             // 
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Storehouse,
+            this.Flower,
             this.Component,
             this.Count});
             this.dataGridView.Location = new System.Drawing.Point(11, 53);
@@ -58,12 +58,12 @@
             this.dataGridView.Size = new System.Drawing.Size(644, 384);
             this.dataGridView.TabIndex = 2;
             // 
-            // Storehouse
+            // Flower
             // 
-            this.Storehouse.HeaderText = "Склад";
-            this.Storehouse.Name = "Storehouse";
-            this.Storehouse.ReadOnly = true;
-            this.Storehouse.Width = 200;
+            this.Flower.HeaderText = "Растение";
+            this.Flower.Name = "Flower";
+            this.Flower.ReadOnly = true;
+            this.Flower.Width = 200;
             // 
             // Component
             // 
@@ -79,16 +79,16 @@
             this.Count.ReadOnly = true;
             this.Count.Width = 200;
             // 
-            // FormReportComponentsStorehouse
+            // FormReportComponentsFlower
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(664, 451);
+            this.ClientSize = new System.Drawing.Size(664, 450);
             this.Controls.Add(this.buttonSaveToExcel);
             this.Controls.Add(this.dataGridView);
-            this.Name = "FormReportComponentsStorehouse";
-            this.Text = "Отчет по компонентам складов";
-            this.Load += new System.EventHandler(this.FormReportComponentsStorehouse_Load);
+            this.Name = "FormReportComponentsFlower";
+            this.Text = "Отчет по компонентам растений";
+            this.Load += new System.EventHandler(this.FormReportComponentsFlower_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
             this.ResumeLayout(false);
 
@@ -98,7 +98,7 @@
 
         private System.Windows.Forms.Button buttonSaveToExcel;
         private System.Windows.Forms.DataGridView dataGridView;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Storehouse;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Flower;
         private System.Windows.Forms.DataGridViewTextBoxColumn Component;
         private System.Windows.Forms.DataGridViewTextBoxColumn Count;
     }

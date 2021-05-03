@@ -220,6 +220,12 @@
     <Compile Include="FormComponent.Designer.cs">
       <DependentUpon>FormComponent.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormReportComponentsFlower.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormReportComponentsFlower.Designer.cs">
+      <DependentUpon>FormReportComponentsFlower.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormReportComponentsStorehouse.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -261,6 +267,12 @@
     </Compile>
     <Compile Include="FormMain.Designer.cs">
       <DependentUpon>FormMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormReportOrdersAllDates.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormReportOrdersAllDates.Designer.cs">
+      <DependentUpon>FormReportOrdersAllDates.cs</DependentUpon>
     </Compile>
     <Compile Include="FormStorehouse.cs">
       <SubType>Form</SubType>
@@ -307,11 +319,17 @@
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormReportComponentsFlower.resx">
+      <DependentUpon>FormReportComponentsFlower.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormReportComponentsStorehouse.resx">
       <DependentUpon>FormReportComponentsStorehouse.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormReportOrders.resx">
       <DependentUpon>FormReportOrders.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormReportOrdersAllDates.resx">
+      <DependentUpon>FormReportOrdersAllDates.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormStorehouse.resx">
       <DependentUpon>FormStorehouse.cs</DependentUpon>
@@ -329,12 +347,16 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Report.rdlc" />
+    <EmbeddedResource Include="ReportOrdersAllDates.rdlc" />
     <None Include="packages.config" />
     <None Include="Properties\DataSources\FlowerShopBusinessLogic.ViewModels.ComponentViewModel.datasource" />
     <None Include="Properties\DataSources\FlowerShopBusinessLogic.ViewModels.FlowerViewModel.datasource" />
     <None Include="Properties\DataSources\FlowerShopBusinessLogic.ViewModels.OrderViewModel.datasource" />
     <None Include="Properties\DataSources\FlowerShopBusinessLogic.ViewModels.ReportFlowerComponentViewModel.datasource" />
+    <None Include="Properties\DataSources\FlowerShopBusinessLogic.ViewModels.ReportOrdersAllDatesViewModel.datasource" />
     <None Include="Properties\DataSources\FlowerShopBusinessLogic.ViewModels.ReportOrdersViewModel.datasource" />
+    <None Include="Properties\DataSources\FlowerShopBusinessLogic.ViewModels.ReportStorehouseComponentViewModel.datasource" />
+    <None Include="Properties\DataSources\FlowerShopBusinessLogic.ViewModels.StorehouseViewModel.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

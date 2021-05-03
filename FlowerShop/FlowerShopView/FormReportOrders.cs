@@ -10,7 +10,6 @@ namespace FlowerShopView
     public partial class FormReportOrders : Form
     {
         [Dependency]
-        public new IUnityContainer Container { get; set; }
         private readonly ReportLogic logic;
         public FormReportOrders(ReportLogic _logic)
         {
@@ -23,11 +22,22 @@ namespace FlowerShopView
         }
         private void buttonForm_Click(object sender, EventArgs e)
         {
+            if (dateTimePickerFrom.Value.Date >= dateTimePickerTo.Value.Date)
+            {
+                MessageBox.Show("Дата начала должна быть меньше даты окончания",
+               "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             try
             {
-                ReportParameter parameter = new ReportParameter("ReportParameterPeriod", "за весь период");
+                ReportParameter parameter = new ReportParameter("ReportParameterPeriod", "c " +
+                    dateTimePickerFrom.Value.ToShortDateString() + " по " + dateTimePickerTo.Value.ToShortDateString());
                 reportViewer.LocalReport.SetParameters(parameter);
-                var dataSource = logic.GetOrders();
+                var dataSource = logic.GetOrders(new ReportBindingModel
+                {
+                    DateFrom = dateTimePickerFrom.Value,
+                    DateTo = dateTimePickerTo.Value
+                });
                 ReportDataSource source = new ReportDataSource("DataSetOrders", dataSource);
                 reportViewer.LocalReport.DataSources.Add(source);
                 reportViewer.RefreshReport();
@@ -40,6 +50,12 @@ namespace FlowerShopView
         [Obsolete]
         private void buttonFormToPDF_Click(object sender, EventArgs e)
         {
+            if (dateTimePickerFrom.Value.Date >= dateTimePickerTo.Value.Date)
+            {
+                MessageBox.Show("Дата начала должна быть меньше даты окончания",
+               "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             using (var dialog = new SaveFileDialog { Filter = "pdf|*.pdf" })
             {
                 if (dialog.ShowDialog() == DialogResult.OK)

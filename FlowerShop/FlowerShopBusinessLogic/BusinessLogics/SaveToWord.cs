@@ -54,6 +54,23 @@ namespace FlowerShopBusinessLogic.BusinessLogics
                     docBody.AppendChild(table);
                     docBody.AppendChild(CreateSectionProperties());
                 }
+                if (info.Flowers != null)
+                {
+                    foreach (var flower in info.Flowers)
+                    {
+                        docBody.AppendChild(CreateParagraph(new WordParagraph
+                        {
+                            Texts = new List<(string, WordTextProperties)> { (flower.FlowerName + ": ", new WordTextProperties {Bold = true, Size = "24", }),
+                            (flower.Price.ToString(), new WordTextProperties { Size = "24", })},
+                            TextProperties = new WordTextProperties
+                            {
+                                Size = "24",
+                                JustificationValues = JustificationValues.Both
+                            }
+                        })); ;
+                    }
+                    docBody.AppendChild(CreateSectionProperties());
+                }
                 wordDocument.MainDocumentPart.Document.Save();
             }
         }
