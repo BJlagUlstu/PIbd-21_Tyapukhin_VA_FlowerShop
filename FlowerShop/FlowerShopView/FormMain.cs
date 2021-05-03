@@ -37,6 +37,7 @@ namespace FlowerShopView
                     dataGridView.Columns[2].Visible = false;
                     dataGridView.Columns[3].Visible = false;
                     dataGridView.Columns[6].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                    dataGridView.Columns[9].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                 }
             }
             catch (Exception ex)

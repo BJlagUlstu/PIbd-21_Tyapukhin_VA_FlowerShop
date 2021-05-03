@@ -4,6 +4,7 @@ using FlowerShopBusinessLogic.Interfaces;
 using FlowerShopBusinessLogic.ViewModels;
 using System;
 using System.Collections.Generic;
+using FlowerShopBusinessLogic.HelperModels;
 
 namespace FlowerShopBusinessLogic.BusinessLogics
 {
@@ -45,6 +46,7 @@ namespace FlowerShopBusinessLogic.BusinessLogics
         {
             lock (locker)
             {
+                OrderStatus status = OrderStatus.Выполняется;
                 var order = _orderStorage.GetElement(new OrderBindingModel
                 {
                     Id = model.OrderId
@@ -59,7 +61,7 @@ namespace FlowerShopBusinessLogic.BusinessLogics
                 }
                 if (!_storehouseStorage.writeOffComponentsFromStorehouse(model.OrderId))
                 {
-                    throw new Exception("На складе нет необходимых компонентов");
+                    status = OrderStatus.Требуются_материалы;
                 }
                 if (order.ImplementerId.HasValue)
                 {
@@ -73,7 +75,7 @@ namespace FlowerShopBusinessLogic.BusinessLogics
                     Sum = order.Sum,
                     DateCreate = order.DateCreate,
                     DateImplement = DateTime.Now,
-                    Status = OrderStatus.Выполняется,
+                    Status = status,
                     ClientId = order.ClientId,
                     ImplementerId = model.ImplementerId
                 });
@@ -88,6 +90,14 @@ namespace FlowerShopBusinessLogic.BusinessLogics
             if (order == null)
             {
                 throw new Exception("Не найден заказ");
+            }
+            if (order.Status == OrderStatus.Требуются_материалы)
+            {
+                order.Status = OrderStatus.Выполняется;
+            }
+            if (!_storehouseStorage.writeOffComponentsFromStorehouse(model.OrderId))
+            {
+                return;
             }
             if (order.Status != OrderStatus.Выполняется)
             {

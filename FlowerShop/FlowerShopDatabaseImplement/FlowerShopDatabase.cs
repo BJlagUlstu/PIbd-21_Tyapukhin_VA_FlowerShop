@@ -9,7 +9,7 @@ namespace FlowerShopDatabaseImplement
         {
             if (optionsBuilder.IsConfigured == false)
             {
-                optionsBuilder.UseSqlServer(@"Data Source=DESKTOP-UI0H4F9\SQLEXPRESS;Initial Catalog=FlowerShopDatabaseComplex;Integrated Security=True;MultipleActiveResultSets=True;");
+                optionsBuilder.UseSqlServer(@"Data Source=DESKTOP-UI0H4F9\SQLEXPRESS;Initial Catalog=FlowerShopDatabaseComplexTwo;Integrated Security=True;MultipleActiveResultSets=True;");
             }
             base.OnConfiguring(optionsBuilder);
         }

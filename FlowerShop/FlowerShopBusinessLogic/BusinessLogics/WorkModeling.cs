@@ -5,6 +5,8 @@ using FlowerShopBusinessLogic.ViewModels;
 using FlowerShopBusinessLogic.BindingModels;
 using System.Threading.Tasks;
 using System.Threading;
+using FlowerShopBusinessLogic.HelperModels;
+using System.Linq;
 
 namespace FlowerShopBusinessLogic.BusinessLogics
 {
@@ -14,8 +16,7 @@ namespace FlowerShopBusinessLogic.BusinessLogics
         private readonly IOrderStorage _orderStorage;
         private readonly OrderLogic _orderLogic;
         private readonly Random rnd;
-        public WorkModeling(IImplementerStorage implementerStorage, IOrderStorage
-        orderStorage, OrderLogic orderLogic)
+        public WorkModeling(IImplementerStorage implementerStorage, IOrderStorage orderStorage, OrderLogic orderLogic)
         {
             _implementerStorage = implementerStorage;
             _orderStorage = orderStorage;
@@ -51,6 +52,19 @@ namespace FlowerShopBusinessLogic.BusinessLogics
                 // отдыхаем
                 Thread.Sleep(implementer.PauseTime);
             }
+            var orderWithNeedMaterials = await Task.Run(() => _orderStorage.GetFilteredList(new OrderBindingModel { ImplementerId = implementer.Id, Status = Enums.OrderStatus.Требуются_материалы }));
+            foreach (var order in orderWithNeedMaterials)
+            {
+                // делаем работу заново
+                Thread.Sleep(implementer.WorkingTime * rnd.Next(1, 5) * order.Count);
+                _orderLogic.FinishOrder(new ChangeStatusBindingModel
+                {
+                    OrderId = order.Id,
+                    ImplementerId = implementer.Id
+                });
+                // отдыхаем
+                Thread.Sleep(implementer.PauseTime);
+            }
             await Task.Run(() =>
             {
                 foreach (var order in orders)
@@ -64,8 +78,7 @@ namespace FlowerShopBusinessLogic.BusinessLogics
                             ImplementerId = implementer.Id
                         });
                         // делаем работу
-                        Thread.Sleep(implementer.WorkingTime * rnd.Next(1, 5) *
-                        order.Count);
+                        Thread.Sleep(implementer.WorkingTime * rnd.Next(1, 5) * order.Count);
                         _orderLogic.FinishOrder(new ChangeStatusBindingModel
                         {
                             OrderId = order.Id,
