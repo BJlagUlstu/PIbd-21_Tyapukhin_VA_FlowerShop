@@ -78,6 +78,7 @@ namespace FlowerShopFileImplement.Implements
         }
         private Order CreateModel(OrderBindingModel model, Order order)
         {
+            order.ClientId = (int)model.ClientId;
             order.FlowerId = model.FlowerId;
             order.Count = model.Count;
             order.Sum = model.Sum;
@@ -91,7 +92,9 @@ namespace FlowerShopFileImplement.Implements
             return new OrderViewModel
             {
                 Id = order.Id,
+                ClientId = order.ClientId,
                 FlowerId = order.FlowerId,
+                ClientFIO = source.Clients.FirstOrDefault(rec => rec.Id == order.ClientId)?.ClientFIO,
                 FlowerName = source.Flowers.FirstOrDefault(flowerName => flowerName.Id == order.FlowerId)?.FlowerName,
                 Count = order.Count,
                 Sum = order.Sum,

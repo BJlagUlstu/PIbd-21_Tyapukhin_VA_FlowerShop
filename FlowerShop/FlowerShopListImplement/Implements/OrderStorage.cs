@@ -4,6 +4,7 @@ using FlowerShopBusinessLogic.ViewModels;
 using FlowerShopListImplement.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace FlowerShopListImplement.Implements
 {
@@ -107,6 +108,7 @@ namespace FlowerShopListImplement.Implements
             order.Status = model.Status;
             order.DateCreate = model.DateCreate;
             order.DateImplement = model.DateImplement;
+            order.ClientId = (int)model.ClientId;
             return order;
         }
         private OrderViewModel CreateModel(Order order)
@@ -120,9 +122,19 @@ namespace FlowerShopListImplement.Implements
                     break;
                 }
             }
+            string clientFIO = null;
+            foreach (var client in source.Clients)
+            {
+                if (client.Id == order.ClientId)
+                {
+                    clientFIO = client.ClientFIO;
+                }
+            }
             return new OrderViewModel
             {
                 Id = order.Id,
+                ClientId = order.ClientId,
+                ClientFIO = clientFIO,
                 FlowerId = order.FlowerId,
                 FlowerName = flowerName,
                 Count = order.Count,

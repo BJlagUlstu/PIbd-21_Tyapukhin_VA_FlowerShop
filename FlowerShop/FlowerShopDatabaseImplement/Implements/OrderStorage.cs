@@ -15,7 +15,7 @@ namespace FlowerShopDatabaseImplement.Implements
         {
             using (var context = new FlowerShopDatabase())
             {
-                return context.Orders.Include(rec => rec.Flower).Select(rec => new OrderViewModel
+                return context.Orders.Include(rec => rec.Flower).Include(rec => rec.Client).Select(rec => new OrderViewModel
                 {
                     Id = rec.Id,
                     FlowerId = rec.FlowerId,
@@ -24,7 +24,9 @@ namespace FlowerShopDatabaseImplement.Implements
                     Sum = rec.Sum,
                     Status = rec.Status,
                     DateCreate = rec.DateCreate,
-                    DateImplement = rec.DateImplement
+                    DateImplement = rec.DateImplement,
+                    ClientId = rec.ClientId,
+                    ClientFIO = rec.Client.ClientFIO
                 })
                 .ToList();
             }
@@ -48,7 +50,9 @@ namespace FlowerShopDatabaseImplement.Implements
                     Sum = rec.Sum,
                     Status = rec.Status,
                     DateCreate = rec.DateCreate,
-                    DateImplement = rec.DateImplement
+                    DateImplement = rec.DateImplement,
+                    ClientId = rec.ClientId,
+                    ClientFIO = rec.Client.ClientFIO
                 })
                 .ToList();
             }
@@ -61,7 +65,7 @@ namespace FlowerShopDatabaseImplement.Implements
             }
             using (var context = new FlowerShopDatabase())
             {
-                var order = context.Orders.Include(rec => rec.Flower).FirstOrDefault(rec => rec.Id == model.Id);
+                var order = context.Orders.Include(rec => rec.Flower).Include(rec => rec.Client).FirstOrDefault(rec => rec.Id == model.Id);
                 return order != null ?
                 new OrderViewModel
                 {
@@ -72,7 +76,9 @@ namespace FlowerShopDatabaseImplement.Implements
                     Sum = order.Sum,
                     Status = order.Status,
                     DateCreate = order.DateCreate,
-                    DateImplement = order.DateImplement
+                    DateImplement = order.DateImplement,
+                    ClientId = order.ClientId,
+                    ClientFIO = order.Client.ClientFIO
                 } :
                 null;
             }
@@ -89,6 +95,7 @@ namespace FlowerShopDatabaseImplement.Implements
                     Status = model.Status,
                     DateCreate = model.DateCreate,
                     DateImplement = model.DateImplement,
+                    ClientId = (int)model.ClientId
                 };
                 context.Orders.Add(order);
                 context.SaveChanges();
@@ -111,6 +118,7 @@ namespace FlowerShopDatabaseImplement.Implements
                 element.Status = model.Status;
                 element.DateCreate = model.DateCreate;
                 element.DateImplement = model.DateImplement;
+                element.ClientId = (int)model.ClientId;
                 CreateModel(model, element);
                 context.SaveChanges();
             }
