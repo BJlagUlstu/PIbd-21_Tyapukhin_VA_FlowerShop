@@ -8,26 +8,26 @@ namespace FlowerShopBusinessLogic.BusinessLogics
 {
     public class FlowerLogic
     {
-        private readonly IFlowerStorage _componentStorage;
-        public FlowerLogic(IFlowerStorage componentStorage)
+        private readonly IFlowerStorage _flowerStorage;
+        public FlowerLogic(IFlowerStorage flowerStorage)
         {
-            _componentStorage = componentStorage;
+            _flowerStorage = flowerStorage;
         }
         public List<FlowerViewModel> Read(FlowerBindingModel model)
         {
             if (model == null)
             {
-                return _componentStorage.GetFullList();
+                return _flowerStorage.GetFullList();
             }
             if (model.Id.HasValue)
             {
-                return new List<FlowerViewModel> { _componentStorage.GetElement(model) };
+                return new List<FlowerViewModel> { _flowerStorage.GetElement(model) };
             }
-            return _componentStorage.GetFilteredList(model);
+            return _flowerStorage.GetFilteredList(model);
         }
         public void CreateOrUpdate(FlowerBindingModel model)
         {
-            var element = _componentStorage.GetElement(new FlowerBindingModel
+            var element = _flowerStorage.GetElement(new FlowerBindingModel
             {
                 FlowerName = model.FlowerName
             });
@@ -37,16 +37,16 @@ namespace FlowerShopBusinessLogic.BusinessLogics
             }
             if (model.Id.HasValue)
             {
-                _componentStorage.Update(model);
+                _flowerStorage.Update(model);
             }
             else
             {
-                _componentStorage.Insert(model);
+                _flowerStorage.Insert(model);
             }
         }
         public void Delete(FlowerBindingModel model)
         {
-            var element = _componentStorage.GetElement(new FlowerBindingModel
+            var element = _flowerStorage.GetElement(new FlowerBindingModel
             {
                 Id = model.Id
             });
@@ -54,7 +54,7 @@ namespace FlowerShopBusinessLogic.BusinessLogics
             {
                 throw new Exception("Растение не найдено");
             }
-            _componentStorage.Delete(model);
+            _flowerStorage.Delete(model);
         }
     }
 }

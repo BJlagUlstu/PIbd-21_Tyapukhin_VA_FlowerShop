@@ -96,8 +96,7 @@ namespace FlowerShopClientApp.Controllers
         [HttpPost]
         public void Register(string login, string password, string fio)
         {
-            if (!string.IsNullOrEmpty(login) && !string.IsNullOrEmpty(password)
-            && !string.IsNullOrEmpty(fio))
+            if (!string.IsNullOrEmpty(login) && !string.IsNullOrEmpty(password) && !string.IsNullOrEmpty(fio))
             {
                 APIClient.PostRequest("api/client/register", new ClientBindingModel
                 {

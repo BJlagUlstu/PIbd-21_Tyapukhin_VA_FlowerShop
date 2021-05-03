@@ -39,8 +39,9 @@ namespace FlowerShopDatabaseImplement.Implements
             }
             using (var context = new FlowerShopDatabase())
             {
-                return context.Orders.Include(rec => rec.Flower)
-                .Where(rec => rec.Id.Equals(model.Id) || (rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo))
+                return context.Orders.Include(rec => rec.Flower).Include(rec => rec.Client)
+                .Where(rec => rec.Id.Equals(model.Id) || (model.ClientId.HasValue && rec.ClientId == model.ClientId) || (!model.DateFrom.HasValue && !model.DateTo.HasValue && rec.DateCreate == model.DateCreate) ||
+                (model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate.Date >= model.DateFrom.Value.Date && rec.DateCreate.Date <= model.DateTo.Value.Date))
                 .ToList().Select(rec => new OrderViewModel
                 {
                     Id = rec.Id,
