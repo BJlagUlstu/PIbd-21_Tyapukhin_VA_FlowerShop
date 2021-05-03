@@ -91,13 +91,9 @@ namespace FlowerShopBusinessLogic.BusinessLogics
             {
                 throw new Exception("Не найден заказ");
             }
-            if (order.Status == OrderStatus.Требуются_материалы)
+            if (order.Status == OrderStatus.Требуются_материалы && _storehouseStorage.writeOffComponentsFromStorehouse(model.OrderId))
             {
                 order.Status = OrderStatus.Выполняется;
-            }
-            if (!_storehouseStorage.writeOffComponentsFromStorehouse(model.OrderId))
-            {
-                return;
             }
             if (order.Status != OrderStatus.Выполняется)
             {

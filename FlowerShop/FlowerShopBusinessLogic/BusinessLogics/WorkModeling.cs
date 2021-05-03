@@ -5,8 +5,6 @@ using FlowerShopBusinessLogic.ViewModels;
 using FlowerShopBusinessLogic.BindingModels;
 using System.Threading.Tasks;
 using System.Threading;
-using FlowerShopBusinessLogic.HelperModels;
-using System.Linq;
 
 namespace FlowerShopBusinessLogic.BusinessLogics
 {
@@ -52,8 +50,8 @@ namespace FlowerShopBusinessLogic.BusinessLogics
                 // отдыхаем
                 Thread.Sleep(implementer.PauseTime);
             }
-            var orderWithNeedMaterials = await Task.Run(() => _orderStorage.GetFilteredList(new OrderBindingModel { ImplementerId = implementer.Id, Status = Enums.OrderStatus.Требуются_материалы }));
-            foreach (var order in orderWithNeedMaterials)
+            var ordersWithNeedMaterials = await Task.Run(() => _orderStorage.GetFilteredList(new OrderBindingModel { ImplementerId = implementer.Id, Status = Enums.OrderStatus.Требуются_материалы }));
+            foreach (var order in ordersWithNeedMaterials)
             {
                 // делаем работу заново
                 Thread.Sleep(implementer.WorkingTime * rnd.Next(1, 5) * order.Count);
