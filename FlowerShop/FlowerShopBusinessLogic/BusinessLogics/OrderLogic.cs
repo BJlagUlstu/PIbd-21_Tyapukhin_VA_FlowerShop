@@ -11,7 +11,6 @@ namespace FlowerShopBusinessLogic.BusinessLogics
     {
         private readonly IOrderStorage _orderStorage;
         private readonly object locker = new object();
-        public OrderLogic(IOrderStorage orderStorage)
         private readonly IStorehouseStorage _storehouseStorage;
         public OrderLogic(IOrderStorage orderStorage, IStorehouseStorage storehouseStorage)
         {
@@ -58,6 +57,10 @@ namespace FlowerShopBusinessLogic.BusinessLogics
                 {
                     throw new Exception("Заказ не в статусе \"Принят\"");
                 }
+                if (!_storehouseStorage.writeOffComponentsFromStorehouse(model.OrderId))
+                {
+                    throw new Exception("На складе нет необходимых компонентов");
+                }
                 if (order.ImplementerId.HasValue)
                 {
                     throw new Exception("У заказа уже есть исполнитель");
@@ -75,34 +78,6 @@ namespace FlowerShopBusinessLogic.BusinessLogics
                     ImplementerId = model.ImplementerId
                 });
             }
-        }
-            var order = _orderStorage.GetElement(new OrderBindingModel
-            {
-                Id = model.OrderId
-            });
-            if (order == null)
-            {
-                throw new Exception("Не найден заказ");
-            }
-            if (order.Status != OrderStatus.Принят)
-            {
-                throw new Exception("Заказ не в статусе \"Принят\"");
-            }
-            if (!_storehouseStorage.writeOffComponentsFromStorehouse(model.OrderId))
-            {
-                throw new Exception("На складе нет необходимых компонентов");
-            }
-            _orderStorage.Update(new OrderBindingModel
-            {
-                Id = order.Id,
-                FlowerId = order.FlowerId,
-                Count = order.Count,
-                Sum = order.Sum,
-                DateCreate = order.DateCreate,
-                DateImplement = DateTime.Now,
-                Status = OrderStatus.Выполняется,
-                ClientId = order.ClientId
-            });
         }
         public void FinishOrder(ChangeStatusBindingModel model)
         {

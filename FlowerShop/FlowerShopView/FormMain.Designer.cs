@@ -58,7 +58,6 @@
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.справочникиToolStripMenuItem,
             this.пополнениеСкладаToolStripMenuItem,
-            this.отчетыToolStripMenuItem});
             this.отчетыToolStripMenuItem,
             this.запускРаботToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
@@ -73,7 +72,6 @@
             this.компонентыToolStripMenuItem,
             this.растенияToolStripMenuItem,
             this.складыToolStripMenuItem,
-            this.клиентыToolStripMenuItem});
             this.клиентыToolStripMenuItem,
             this.исполнителиToolStripMenuItem});
             this.справочникиToolStripMenuItem.Name = "справочникиToolStripMenuItem";
