@@ -50,7 +50,6 @@ namespace FlowerShopBusinessLogic.BusinessLogics
                 Subject = $"Новый заказ",
                 Text = $"Заказ от {DateTime.Now} на сумму {model.Sum:N2} принят."
             });
-
         }
         public void TakeOrderInWork(ChangeStatusBindingModel model)
         {

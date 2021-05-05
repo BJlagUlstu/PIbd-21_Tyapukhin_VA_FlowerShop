@@ -54,8 +54,7 @@ namespace FlowerShopDatabaseImplement.Implements
             }
             using (var context = new FlowerShopDatabase())
             {
-                var client = context.Clients.Include(x => x.Order)
-                .FirstOrDefault(rec => rec.Email == model.Email || rec.Id == model.Id);
+                var client = context.Clients.FirstOrDefault(rec => rec.Email == model.Email || rec.Id == model.Id);
                 return client != null ?
                 new ClientViewModel
                 {
