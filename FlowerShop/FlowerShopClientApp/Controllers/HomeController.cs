@@ -75,7 +75,7 @@ namespace FlowerShopClientApp.Controllers
         {
             if (!string.IsNullOrEmpty(login) && !string.IsNullOrEmpty(password))
             {
-                Program.Client = APIClient.GetRequest<ClientViewModel>($"api/client/login?login={login}&password={password }");
+                Program.Client = APIClient.GetRequest<ClientViewModel>($"api/client/login?login={login}&password={password}");
 
                 if (Program.Client == null)
                 {
@@ -134,13 +134,14 @@ namespace FlowerShopClientApp.Controllers
             Response.Redirect("Index");
         }
 
-        public IActionResult Mails()
+        public IActionResult Mails(int page = 1)
         {
             if (Program.Client == null)
             {
                 return Redirect("~/Home/Enter");
             }
-            return View(APIClient.GetRequest<List<MessageInfoViewModel>>($"api/client/getmessages?clientId={Program.Client.Id}"));
+            int pageSize = 7;
+            return View(APIClient.GetRequest<PageViewModel>($"api/client/getmessages?clientId={Program.Client.Id}&pageSize={pageSize}&page={page}"));
         }
 
         [HttpPost]

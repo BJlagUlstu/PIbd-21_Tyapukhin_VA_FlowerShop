@@ -5,7 +5,6 @@ using FlowerShopBusinessLogic.Interfaces;
 using FlowerShopBusinessLogic.ViewModels;
 using System;
 using System.Collections.Generic;
-using FlowerShopBusinessLogic.HelperModels;
 
 namespace FlowerShopBusinessLogic.BusinessLogics
 {
@@ -14,9 +13,8 @@ namespace FlowerShopBusinessLogic.BusinessLogics
         private readonly IOrderStorage _orderStorage;
         private readonly object locker = new object();
         private readonly IClientStorage _clientStorage;
-        public OrderLogic(IOrderStorage orderStorage, IClientStorage clientStorage)
         private readonly IStorehouseStorage _storehouseStorage;
-        public OrderLogic(IOrderStorage orderStorage, IStorehouseStorage storehouseStorage)
+        public OrderLogic(IOrderStorage orderStorage, IStorehouseStorage storehouseStorage, IClientStorage clientStorage)
         {
             _orderStorage = orderStorage;
             _clientStorage = clientStorage;

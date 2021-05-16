@@ -37,7 +37,10 @@ namespace FlowerShopRestApi.Controllers
             _logic.CreateOrUpdate(model);
         } 
         [HttpGet]
-        public List<MessageInfoViewModel> GetMessages(int clientId) => _mail.Read(new MessageInfoBindingModel { ClientId = clientId });
+        public PageViewModel GetMessages(int clientId, int pageSize, int page)
+        {
+            return new PageViewModel(_mail.Count(), page, pageSize, _mail.GetMessagesForPage(new MessageInfoBindingModel { Page = page, PageSize = pageSize, ClientId = clientId }));
+        }
         private void CheckData(ClientBindingModel model)
         {
             if (!Regex.IsMatch(model.Email, @"^(?("")(""[^""]+?""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))" +
