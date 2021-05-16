@@ -81,6 +81,8 @@ namespace FlowerShopFileImplement
                     {
                         Id = Convert.ToInt32(elem.Attribute("Id").Value),
                         FlowerId = Convert.ToInt32(elem.Element("FlowerId").Value),
+                        ClientId = Convert.ToInt32(elem.Element("ClientId")?.Value),
+                        ImplementerId = Convert.ToInt32(elem.Element("ImplementerId")?.Value),
                         Count = Convert.ToInt32(elem.Element("Count").Value),
                         Sum = Convert.ToDecimal(elem.Element("Sum").Value),
                         Status = (OrderStatus)Enum.Parse(typeof(OrderStatus), elem.Element("Status").Value),
