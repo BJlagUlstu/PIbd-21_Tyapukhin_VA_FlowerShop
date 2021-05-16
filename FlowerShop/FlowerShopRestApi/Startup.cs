@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using FlowerShopBusinessLogic.HelperModels;
 
 namespace FlowerShopRestApi
 {
@@ -30,6 +31,14 @@ namespace FlowerShopRestApi
             services.AddTransient<FlowerLogic>();
             services.AddTransient<MailLogic>();
             services.AddControllers().AddNewtonsoftJson();
+
+            MailLogic.MailConfig(new MailConfig
+            {
+                SmtpClientHost = "smtp.gmail.com",
+                SmtpClientPort = 587,
+                MailLogin = "vjladjleh@gmail.com",
+                MailPassword = "Stanlox73rus"
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
