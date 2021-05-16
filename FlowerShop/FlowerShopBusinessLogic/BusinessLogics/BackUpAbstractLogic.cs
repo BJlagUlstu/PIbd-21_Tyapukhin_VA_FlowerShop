@@ -71,13 +71,13 @@ namespace FlowerShopBusinessLogic.BusinessLogics
             var typeName = obj.GetType().Name;
             if (records != null)
             {
-                var root = new XElement(typeName + 's');
+                var root = new XElement($"{typeName}s");
                 foreach (var record in records)
                 {
                     var elem = new XElement(typeName);
-                    foreach (var mem in obj.GetType().GetMembers().Where(rec => rec.MemberType != MemberTypes.Method && rec.MemberType != MemberTypes.Constructor && !rec.ToString().Contains(".Models.")))
+                    foreach (var member in obj.GetType().GetMembers().Where(rec => rec.MemberType != MemberTypes.Method && rec.MemberType != MemberTypes.Constructor && !rec.ToString().Contains(".Models.")))
                     {
-                        elem.Add(new XElement(mem.Name, record.GetType().GetProperty(mem.Name)?.GetValue(record) ?? "null"));
+                        elem.Add(new XElement(member.Name, record.GetType().GetProperty(member.Name)?.GetValue(record) ?? "null"));
                     }
                     root.Add(elem);
                 }
