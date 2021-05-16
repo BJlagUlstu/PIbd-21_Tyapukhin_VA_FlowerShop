@@ -15,5 +15,7 @@ namespace FlowerShopDatabaseImplement.Models
         public string Password { get; set; }
         [ForeignKey("ClientId")]
         public List<Order> Order { get; set; }
+        [ForeignKey("ClientId")]
+        public List<MessageInfo> Message { get; set; }
     }
 }
