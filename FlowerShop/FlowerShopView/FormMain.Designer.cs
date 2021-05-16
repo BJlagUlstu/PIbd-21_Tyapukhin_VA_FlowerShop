@@ -59,7 +59,7 @@
             this.создатьБекапToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(1284, 24);
+            this.menuStrip.Size = new System.Drawing.Size(1384, 24);
             this.menuStrip.TabIndex = 0;
             this.menuStrip.Text = "menuStrip";
             // 
@@ -159,12 +159,12 @@
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView.Location = new System.Drawing.Point(13, 28);
             this.dataGridView.Name = "dataGridView";
-            this.dataGridView.Size = new System.Drawing.Size(1090, 320);
+            this.dataGridView.Size = new System.Drawing.Size(1190, 320);
             this.dataGridView.TabIndex = 1;
             // 
             // buttonCreateOrder
             // 
-            this.buttonCreateOrder.Location = new System.Drawing.Point(1120, 100);
+            this.buttonCreateOrder.Location = new System.Drawing.Point(1220, 100);
             this.buttonCreateOrder.Name = "buttonCreateOrder";
             this.buttonCreateOrder.Size = new System.Drawing.Size(150, 23);
             this.buttonCreateOrder.TabIndex = 2;
@@ -174,7 +174,7 @@
             // 
             // buttonOrderPaid
             // 
-            this.buttonOrderPaid.Location = new System.Drawing.Point(1120, 180);
+            this.buttonOrderPaid.Location = new System.Drawing.Point(1220, 180);
             this.buttonOrderPaid.Name = "buttonOrderPaid";
             this.buttonOrderPaid.Size = new System.Drawing.Size(150, 23);
             this.buttonOrderPaid.TabIndex = 5;
@@ -184,7 +184,7 @@
             // 
             // buttonUpdateList
             // 
-            this.buttonUpdateList.Location = new System.Drawing.Point(1120, 260);
+            this.buttonUpdateList.Location = new System.Drawing.Point(1220, 260);
             this.buttonUpdateList.Name = "buttonUpdateList";
             this.buttonUpdateList.Size = new System.Drawing.Size(150, 23);
             this.buttonUpdateList.TabIndex = 6;
@@ -196,7 +196,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1284, 361);
+            this.ClientSize = new System.Drawing.Size(1384, 361);
             this.Controls.Add(this.buttonUpdateList);
             this.Controls.Add(this.buttonOrderPaid);
             this.Controls.Add(this.buttonCreateOrder);
