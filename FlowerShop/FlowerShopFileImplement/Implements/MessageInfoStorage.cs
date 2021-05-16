@@ -48,6 +48,7 @@ namespace FlowerShopFileImplement.Implements
             message.DateDelivery = model.DateDelivery;
             message.Subject = model.Subject;
             message.Body = model.Body;
+            message.ClientId = model.ClientId;
             return message;
         }
         private MessageInfoViewModel CreateModel(MessageInfo message)
