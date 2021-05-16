@@ -10,6 +10,6 @@ namespace FlowerShopBusinessLogic.Interfaces
         List<MessageInfoViewModel> GetFilteredList(MessageInfoBindingModel model);
         void Insert(MessageInfoBindingModel model);
         List<MessageInfoViewModel> GetMessagesForPage(MessageInfoBindingModel model);
-        int Count();
+        int Count(MessageInfoBindingModel model);
     }
 }

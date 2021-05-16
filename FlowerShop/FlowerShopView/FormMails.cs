@@ -17,7 +17,7 @@ namespace FlowerShopView
         }
         private void LoadData(int page = 1)
         {
-            int pageSize = 4;
+            int pageSize = 3;
 
             var list = logic.GetMessagesForPage(new MessageInfoBindingModel
             {
@@ -26,7 +26,7 @@ namespace FlowerShopView
             });
             if (list != null)
             {
-                pageViewModel = new PageViewModel(logic.Count(), page, pageSize, list);
+                pageViewModel = new PageViewModel(logic.Count(null), page, pageSize, list);
                 dataGridView.DataSource = list;
                 dataGridView.Columns[0].Visible = false;
                 dataGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;

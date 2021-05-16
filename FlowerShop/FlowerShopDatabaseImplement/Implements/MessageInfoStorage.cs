@@ -68,10 +68,14 @@ namespace FlowerShopDatabaseImplement.Implements
                 context.SaveChanges();
             }
         }
-        public int Count()
+        public int Count(MessageInfoBindingModel model)
         {
             using (var context = new FlowerShopDatabase())
             {
+                if (model != null)
+                {
+                    return context.MessageInfoes.Where(rec => (model.ClientId.HasValue && model.ClientId.Value == rec.ClientId) || !model.ClientId.HasValue).Count();
+                }
                 return context.MessageInfoes.Count();
             }
         }

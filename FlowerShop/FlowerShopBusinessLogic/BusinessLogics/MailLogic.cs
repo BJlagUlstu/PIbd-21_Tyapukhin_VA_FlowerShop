@@ -135,9 +135,9 @@ namespace FlowerShopBusinessLogic.BusinessLogics
                 });
             }
         }
-        public int Count()
+        public int Count(MessageInfoBindingModel model)
         {
-            return _messageInfoStorage.Count();
+            return _messageInfoStorage.Count(model);
         }
         public List<MessageInfoViewModel> GetMessagesForPage(MessageInfoBindingModel model)
         {

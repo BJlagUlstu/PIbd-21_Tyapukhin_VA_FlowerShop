@@ -97,8 +97,12 @@ namespace FlowerShopListImplement.Implements
                 Body = rec.Body
             }).ToList();
         }
-        public int Count()
+        public int Count(MessageInfoBindingModel model)
         {
+            if (model != null)
+            {
+                return source.Messages.Where(rec => (model.ClientId.HasValue && model.ClientId.Value == rec.ClientId) || !model.ClientId.HasValue).Count();
+            }
             return source.Messages.Count();
         }
     }

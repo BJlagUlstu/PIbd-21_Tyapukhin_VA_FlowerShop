@@ -3,7 +3,6 @@ using FlowerShopBusinessLogic.BusinessLogics;
 using FlowerShopBusinessLogic.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace FlowerShopRestApi.Controllers
@@ -39,7 +38,7 @@ namespace FlowerShopRestApi.Controllers
         [HttpGet]
         public PageViewModel GetMessages(int clientId, int pageSize, int page)
         {
-            return new PageViewModel(_mail.Count(), page, pageSize, _mail.GetMessagesForPage(new MessageInfoBindingModel { Page = page, PageSize = pageSize, ClientId = clientId }));
+            return new PageViewModel(_mail.Count(new MessageInfoBindingModel { ClientId = clientId }), page, pageSize, _mail.GetMessagesForPage(new MessageInfoBindingModel { Page = page, PageSize = pageSize, ClientId = clientId }));
         }
         private void CheckData(ClientBindingModel model)
         {

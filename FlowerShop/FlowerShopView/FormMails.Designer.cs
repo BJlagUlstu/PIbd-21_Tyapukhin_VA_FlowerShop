@@ -50,7 +50,7 @@
             // 
             // buttonNext
             // 
-            this.buttonNext.Location = new System.Drawing.Point(50, 425);
+            this.buttonNext.Location = new System.Drawing.Point(450, 425);
             this.buttonNext.Name = "buttonNext";
             this.buttonNext.Size = new System.Drawing.Size(75, 25);
             this.buttonNext.TabIndex = 1;
@@ -60,7 +60,7 @@
             // 
             // buttonPrev
             // 
-            this.buttonPrev.Location = new System.Drawing.Point(450, 425);
+            this.buttonPrev.Location = new System.Drawing.Point(50, 425);
             this.buttonPrev.Name = "buttonPrev";
             this.buttonPrev.Size = new System.Drawing.Size(75, 23);
             this.buttonPrev.TabIndex = 2;
