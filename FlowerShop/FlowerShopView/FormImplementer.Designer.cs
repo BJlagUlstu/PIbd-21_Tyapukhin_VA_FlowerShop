@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
+            this.labelFullname = new System.Windows.Forms.Label();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.buttonSave = new System.Windows.Forms.Button();
             this.textBoxFIO = new System.Windows.Forms.TextBox();
@@ -38,14 +38,14 @@
             this.textBoxPauseTime = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
-            // label1
+            // labelFullname
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(18, 20);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(37, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "ФИО:";
+            this.labelFullname.AutoSize = true;
+            this.labelFullname.Location = new System.Drawing.Point(18, 20);
+            this.labelFullname.Name = "labelFullname";
+            this.labelFullname.Size = new System.Drawing.Size(37, 13);
+            this.labelFullname.TabIndex = 0;
+            this.labelFullname.Text = "ФИО:";
             // 
             // buttonCancel
             // 
@@ -118,7 +118,7 @@
             this.Controls.Add(this.textBoxFIO);
             this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.buttonCancel);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.labelFullname);
             this.Name = "FormImplementer";
             this.Text = "Исполнитель";
             this.Load += new System.EventHandler(this.FormImplementer_Load);
@@ -129,7 +129,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label labelFullname;
         private System.Windows.Forms.Button buttonCancel;
         private System.Windows.Forms.Button buttonSave;
         private System.Windows.Forms.TextBox textBoxFIO;
