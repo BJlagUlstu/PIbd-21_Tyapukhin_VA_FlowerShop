@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
+﻿using FlowerShopBusinessLogic.Attributes;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace FlowerShopBusinessLogic.ViewModels
@@ -7,13 +7,14 @@ namespace FlowerShopBusinessLogic.ViewModels
     [DataContract]
     public class FlowerViewModel
     {
+        [Column(title: "Номер", width: 100)]
         [DataMember]
         public int Id { get; set; }
+        [Column(title: "Название растения", gridViewAutoSize: GridViewAutoSize.Fill)]
         [DataMember]
-        [DisplayName("Название растения")]
         public string FlowerName { get; set; }
+        [Column(title: "Цена", width: 70)]
         [DataMember]
-        [DisplayName("Цена")]
         public decimal Price { get; set; }
         [DataMember]
         public Dictionary<int, (string, int)> FlowerComponents { get; set; }

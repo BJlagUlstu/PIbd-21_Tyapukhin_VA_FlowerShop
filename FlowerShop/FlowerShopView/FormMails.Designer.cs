@@ -38,14 +38,14 @@
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView.Location = new System.Drawing.Point(6, 6);
             this.dataGridView.Name = "dataGridView";
-            this.dataGridView.Size = new System.Drawing.Size(570, 400);
+            this.dataGridView.Size = new System.Drawing.Size(770, 400);
             this.dataGridView.TabIndex = 0;
             // 
             // FormMails
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(584, 411);
+            this.ClientSize = new System.Drawing.Size(784, 411);
             this.Controls.Add(this.dataGridView);
             this.Name = "FormMails";
             this.Text = "Письма";
