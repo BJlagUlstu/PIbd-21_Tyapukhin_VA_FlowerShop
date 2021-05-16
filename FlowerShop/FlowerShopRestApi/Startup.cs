@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using FlowerShopBusinessLogic.HelperModels;
+using System;
 
 namespace FlowerShopRestApi
 {
@@ -34,10 +35,10 @@ namespace FlowerShopRestApi
 
             MailLogic.MailConfig(new MailConfig
             {
-                SmtpClientHost = "smtp.gmail.com",
-                SmtpClientPort = 587,
-                MailLogin = "vjladjleh@gmail.com",
-                MailPassword = "Stanlox73rus"
+                SmtpClientHost = Configuration["SmtpClientHost"],
+                SmtpClientPort = Convert.ToInt32(Configuration["SmtpClientPort"]),
+                MailLogin = Configuration["MailLogin"],
+                MailPassword = Configuration["MailPassword"],
             });
         }
 
