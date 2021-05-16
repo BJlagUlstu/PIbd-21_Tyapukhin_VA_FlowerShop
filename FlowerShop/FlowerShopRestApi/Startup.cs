@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using FlowerShopBusinessLogic.HelperModels;
+using System;
 
 namespace FlowerShopRestApi
 {
@@ -26,12 +28,22 @@ namespace FlowerShopRestApi
             services.AddTransient<IFlowerStorage, FlowerStorage>();
             services.AddTransient<IStorehouseStorage, StorehouseStorage>();
             services.AddTransient<IComponentStorage, ComponentStorage>();
+            services.AddTransient<IMessageInfoStorage, MessageInfoStorage>();
             services.AddTransient<OrderLogic>();
             services.AddTransient<ClientLogic>();
             services.AddTransient<FlowerLogic>();
+            services.AddTransient<MailLogic>();
             services.AddTransient<StorehouseLogic>();
             services.AddTransient<ComponentLogic>();
             services.AddControllers().AddNewtonsoftJson();
+
+            MailLogic.MailConfig(new MailConfig
+            {
+                SmtpClientHost = Configuration["SmtpClientHost"],
+                SmtpClientPort = Convert.ToInt32(Configuration["SmtpClientPort"]),
+                MailLogin = Configuration["MailLogin"],
+                MailPassword = Configuration["MailPassword"],
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
