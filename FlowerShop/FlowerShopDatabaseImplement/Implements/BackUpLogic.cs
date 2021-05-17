@@ -17,8 +17,7 @@ namespace FlowerShopDatabaseImplement.Implements
             using (var context = new FlowerShopDatabase())
             {
                 Type type = context.GetType();
-                return type.GetProperties().Where(x =>
-               x.PropertyType.FullName.StartsWith("Microsoft.EntityFrameworkCore.DbSet")).ToList();
+                return type.GetProperties().Where(x => x.PropertyType.FullName.StartsWith("Microsoft.EntityFrameworkCore.DbSet")).ToList();
             }
         }
         protected override List<T> GetList<T>()

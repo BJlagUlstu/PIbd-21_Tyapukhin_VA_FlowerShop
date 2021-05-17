@@ -4,7 +4,6 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.Serialization.Json;
 using System.Xml.Linq;
 
 namespace FlowerShopBusinessLogic.BusinessLogics
@@ -33,7 +32,7 @@ namespace FlowerShopBusinessLogic.BusinessLogics
                 // вытаскиваем список классов для сохранения
                 var dbsets = GetFullList();
                 // берем метод для сохранения (из базвого абстрактного класса)
-                MethodInfo method = GetType().BaseType.GetTypeInfo().GetDeclaredMethod("SaveToFileXml");
+                MethodInfo method = GetType().BaseType.GetTypeInfo().GetDeclaredMethod("SaveToFile");
                 foreach (var set in dbsets)
                 {
                     // создаем объект из класса для сохранения
@@ -54,17 +53,7 @@ namespace FlowerShopBusinessLogic.BusinessLogics
                 throw;
             }
         }
-        private void SaveToFileJSON<T>(string folderName) where T : class, new()
-        {
-            var records = GetList<T>();
-            T obj = new T();
-            DataContractJsonSerializer jsonFormatter = new DataContractJsonSerializer(typeof(List<T>));
-            using (FileStream fs = new FileStream(string.Format("{0}/{1}.json", folderName, obj.GetType().Name), FileMode.OpenOrCreate))
-            {
-                jsonFormatter.WriteObject(fs, records);
-            }
-        }
-        private void SaveToFileXml<T>(string folderName) where T : class, new()
+        private void SaveToFile<T>(string folderName) where T : class, new()
         {
             var records = GetList<T>();
             T obj = new T();
