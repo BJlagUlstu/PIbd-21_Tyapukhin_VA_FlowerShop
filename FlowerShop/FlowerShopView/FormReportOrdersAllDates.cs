@@ -1,7 +1,10 @@
 ﻿using FlowerShopBusinessLogic.BindingModels;
 using FlowerShopBusinessLogic.BusinessLogics;
+using FlowerShopBusinessLogic.ViewModels;
 using Microsoft.Reporting.WinForms;
 using System;
+using System.Collections.Generic;
+using System.Reflection;
 using System.Windows.Forms;
 using Unity;
 
@@ -22,7 +25,8 @@ namespace FlowerShopView
             {
                 ReportParameter parameter = new ReportParameter("ReportParameterAllDates", "за весь период");
                 reportViewer.LocalReport.SetParameters(parameter);
-                var dataSource = logic.GetAllOrders();
+                MethodInfo method = logic.GetType().GetMethod("GetAllOrders");
+                List<ReportOrdersViewModel> dataSource = (List<ReportOrdersViewModel>)method.Invoke(logic, new object[] { });
                 ReportDataSource source = new ReportDataSource("DataSetOrdersAllDates", dataSource);
                 reportViewer.LocalReport.DataSources.Add(source);
                 reportViewer.RefreshReport();
@@ -41,10 +45,8 @@ namespace FlowerShopView
                 {
                     try
                     {
-                        logic.SaveAllOrdersToPdfFile(new ReportBindingModel
-                        {
-                            FileName = dialog.FileName
-                        });
+                        MethodInfo method = logic.GetType().GetMethod("SaveAllOrdersToPdfFile");
+                        method.Invoke(logic, new object[] { new ReportBindingModel { FileName = dialog.FileName }});
                         MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK,
                         MessageBoxIcon.Information);
                     }

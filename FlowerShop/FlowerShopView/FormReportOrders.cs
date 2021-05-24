@@ -1,7 +1,10 @@
 ﻿using FlowerShopBusinessLogic.BindingModels;
 using FlowerShopBusinessLogic.BusinessLogics;
+using FlowerShopBusinessLogic.ViewModels;
 using Microsoft.Reporting.WinForms;
 using System;
+using System.Collections.Generic;
+using System.Reflection;
 using System.Windows.Forms;
 using Unity;
 
@@ -31,13 +34,14 @@ namespace FlowerShopView
             try
             {
                 ReportParameter parameter = new ReportParameter("ReportParameterPeriod", "c " +
-                    dateTimePickerFrom.Value.ToShortDateString() + " по " + dateTimePickerTo.Value.ToShortDateString());
+                dateTimePickerFrom.Value.ToShortDateString() + " по " + dateTimePickerTo.Value.ToShortDateString());
                 reportViewer.LocalReport.SetParameters(parameter);
-                var dataSource = logic.GetOrders(new ReportBindingModel
+                MethodInfo method = logic.GetType().GetMethod("GetOrders");
+                List<ReportOrdersViewModel> dataSource = (List<ReportOrdersViewModel>)method.Invoke(logic, new object[] {new ReportBindingModel
                 {
                     DateFrom = dateTimePickerFrom.Value,
                     DateTo = dateTimePickerTo.Value
-                });
+                } });
                 ReportDataSource source = new ReportDataSource("DataSetOrders", dataSource);
                 reportViewer.LocalReport.DataSources.Add(source);
                 reportViewer.RefreshReport();
@@ -62,12 +66,13 @@ namespace FlowerShopView
                 {
                     try
                     {
-                        logic.SaveOrdersToPdfFile(new ReportBindingModel
+                        MethodInfo method = logic.GetType().GetMethod("SaveOrdersToPdfFile");
+                        method.Invoke(logic, new object[] { new ReportBindingModel
                         {
                             FileName = dialog.FileName,
                             DateFrom = dateTimePickerFrom.Value,
                             DateTo = dateTimePickerTo.Value
-                        });
+                        }});
                         MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK,
                         MessageBoxIcon.Information);
                     }

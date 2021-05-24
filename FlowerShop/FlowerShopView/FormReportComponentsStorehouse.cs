@@ -1,6 +1,9 @@
 ﻿using FlowerShopBusinessLogic.BindingModels;
 using FlowerShopBusinessLogic.BusinessLogics;
+using FlowerShopBusinessLogic.ViewModels;
 using System;
+using System.Collections.Generic;
+using System.Reflection;
 using System.Windows.Forms;
 using Unity;
 
@@ -24,10 +27,8 @@ namespace FlowerShopView
                 {
                     try
                     {
-                        logic.SaveComponentStorehouseToExcelFile(new ReportBindingModel
-                        {
-                            FileName = dialog.FileName
-                        });
+                        MethodInfo method = logic.GetType().GetMethod("SaveComponentStorehouseToExcelFile");
+                        method.Invoke(logic, new object[] { new ReportBindingModel { FileName = dialog.FileName }});
                         MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     catch (Exception ex)
@@ -41,7 +42,8 @@ namespace FlowerShopView
         {
             try
             {
-                var dict = logic.GetComponentsStorehouse();
+                MethodInfo method = logic.GetType().GetMethod("GetComponentsStorehouse");
+                List<ReportStorehouseComponentViewModel> dict = (List<ReportStorehouseComponentViewModel>)method.Invoke(logic, new object[] { });
                 if (dict != null)
                 {
                     dataGridView.Rows.Clear();

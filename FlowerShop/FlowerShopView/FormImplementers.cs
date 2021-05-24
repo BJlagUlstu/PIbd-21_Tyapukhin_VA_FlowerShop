@@ -3,6 +3,8 @@ using FlowerShopBusinessLogic.BindingModels;
 using FlowerShopBusinessLogic.BusinessLogics;
 using System.Windows.Forms;
 using Unity;
+using System.Reflection;
+using FlowerShopBusinessLogic.ViewModels;
 
 namespace FlowerShopView
 {
@@ -20,7 +22,9 @@ namespace FlowerShopView
         {
             try
             {
-                Program.ConfigGrid(logic.Read(null), dataGridView);
+                var method = typeof(Program).GetMethod("ConfigGrid");
+                MethodInfo generic = method.MakeGenericMethod(typeof(ImplementerViewModel));
+                generic.Invoke(this, new object[] { logic.Read(null), dataGridView });
             }
             catch (Exception ex)
             {
