@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using FlowerShopBusinessLogic.BindingModels;
 using FlowerShopBusinessLogic.Interfaces;
 using FlowerShopBusinessLogic.ViewModels;
@@ -17,93 +16,85 @@ namespace FlowerShopListImplement.Implements
         }
         public List<MessageInfoViewModel> GetFullList()
         {
-            List<MessageInfoViewModel> result = new List<MessageInfoViewModel>();
-            foreach (var message in source.Messages)
+            var result = new List<MessageInfoViewModel>();
+            foreach (var msg in source.Messages)
             {
-                result.Add(CreateModel(message));
+                result.Add(CreateModel(msg));
             }
             return result;
         }
         public List<MessageInfoViewModel> GetFilteredList(MessageInfoBindingModel model)
         {
+            int toSkip = model.ToSkip ?? 0;
+            int toTake = model.ToTake ?? source.Messages.Count;
             if (model == null)
             {
                 return null;
             }
-            List<MessageInfoViewModel> result = new List<MessageInfoViewModel>();
-            foreach (var message in source.Messages)
+            var result = new List<MessageInfoViewModel>();
+            if (model.ToSkip.HasValue && model.ToTake.HasValue && !model.ClientId.HasValue)
             {
-                if ((model.ClientId.HasValue && message.ClientId == model.ClientId) ||
-                (!model.ClientId.HasValue && message.DateDelivery.Date == model.DateDelivery.Date))
+                foreach (var msg in source.Messages)
                 {
-                    result.Add(CreateModel(message));
+                    if (toSkip > 0) { toSkip--; continue; }
+                    if (toTake > 0)
+                    {
+                        result.Add(CreateModel(msg));
+                        toTake--;
+                    }
                 }
-            }
-            if (result.Count > 0)
-            {
                 return result;
             }
-            return null;
+            foreach (var msg in source.Messages)
+            {
+                if ((model.ClientId.HasValue && msg.ClientId == model.ClientId) || (!model.ClientId.HasValue && msg.DateDelivery.Date == model.DateDelivery.Date))
+                {
+                    if (toSkip > 0) { toSkip--; continue; }
+                    if (toTake > 0)
+                    {
+                        result.Add(CreateModel(msg));
+                        toTake--;
+                    }
+                }
+            }
+            return result;
         }
         public void Insert(MessageInfoBindingModel model)
         {
-            if (model == null)
+            MessageInfo element = null;
+            foreach (var msg in source.Messages)
             {
-                return;
-            }
-            source.Messages.Add(CreateModel(model, new MessageInfo()));
-        }
-        private MessageInfo CreateModel(MessageInfoBindingModel model, MessageInfo message)
-        {
-            string clientName = string.Empty;
-            foreach (var client in source.Clients)
-            {
-
-                if (client.Id == model.ClientId)
+                if (msg.MessageId == model.MessageId)
                 {
-                    clientName = client.ClientFIO;
+                    element = msg;
                     break;
                 }
             }
-            message.MessageId = model.MessageId;
-            message.SenderName = clientName;
-            message.DateDelivery = model.DateDelivery;
-            message.Subject = model.Subject;
-            message.Body = model.Body;
-            message.ClientId = model.ClientId;
-            return message;
+            if (element != null)
+            {
+                return;
+            }
+            source.Messages.Add(new MessageInfo
+            {
+                MessageId = model.MessageId,
+                ClientId = model.ClientId,
+                SenderName = model.FromMailAddress,
+                DateDelivery = model.DateDelivery,
+                Subject = model.Subject,
+                Body = model.Body
+            });
+
         }
-        private MessageInfoViewModel CreateModel(MessageInfo message)
+        private MessageInfoViewModel CreateModel(MessageInfo model)
         {
             return new MessageInfoViewModel
             {
-                MessageId = message.MessageId,
-                SenderName = message.SenderName,
-                DateDelivery = message.DateDelivery,
-                Subject = message.Subject,
-                Body = message.Body,
+                MessageId = model.MessageId,
+                SenderName = model.SenderName,
+                DateDelivery = model.DateDelivery,
+                Subject = model.Subject,
+                Body = model.Body
             };
-        }
-        public List<MessageInfoViewModel> GetMessagesForPage(MessageInfoBindingModel model)
-        {
-            return source.Messages.Where(rec => (model.ClientId.HasValue && model.ClientId.Value == rec.ClientId) || !model.ClientId.HasValue)
-            .Skip((model.Page.Value - 1) * model.PageSize.Value).Take(model.PageSize.Value).ToList()
-            .Select(rec => new MessageInfoViewModel
-            {
-                MessageId = rec.MessageId,
-                SenderName = rec.SenderName,
-                DateDelivery = rec.DateDelivery,
-                Subject = rec.Subject,
-                Body = rec.Body
-            }).ToList();
-        }
-        public int Count(MessageInfoBindingModel model)
-        {
-            if (model != null)
-            {
-                return source.Messages.Where(rec => (model.ClientId.HasValue && model.ClientId.Value == rec.ClientId) || !model.ClientId.HasValue).Count();
-            }
-            return source.Messages.Count();
         }
     }
 }

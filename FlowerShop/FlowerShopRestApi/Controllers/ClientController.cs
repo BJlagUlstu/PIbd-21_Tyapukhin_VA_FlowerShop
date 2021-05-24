@@ -3,6 +3,8 @@ using FlowerShopBusinessLogic.BusinessLogics;
 using FlowerShopBusinessLogic.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace FlowerShopRestApi.Controllers
@@ -12,17 +14,18 @@ namespace FlowerShopRestApi.Controllers
     public class ClientController : ControllerBase
     {
         private readonly ClientLogic _logic;
-        private readonly MailLogic _mail;
+        private readonly MailLogic _logicM;
         private readonly int _passwordMaxLength = 50;
         private readonly int _passwordMinLength = 10;
+        private readonly int mailsOnPage = 2;
         public ClientController(ClientLogic logic, MailLogic mail)
         {
             _logic = logic;
-            _mail = mail;
+            _logicM = mail;
+            if (mailsOnPage < 1) { mailsOnPage = 5; }
         }
         [HttpGet]
-        public ClientViewModel Login(string login, string password) => _logic.Read(new ClientBindingModel
-        { Email = login, Password = password })?[0];
+        public ClientViewModel Login(string login, string password) => _logic.Read(new ClientBindingModel { Email = login, Password = password })?[0];
         [HttpPost]
         public void Register(ClientBindingModel model)
         {
@@ -34,11 +37,13 @@ namespace FlowerShopRestApi.Controllers
         {
             CheckData(model);
             _logic.CreateOrUpdate(model);
-        } 
+        }
         [HttpGet]
-        public PageViewModel GetMessages(int clientId, int pageSize, int page)
+        public (List<MessageInfoViewModel>, bool) GetMessages(int clientId, int page)
         {
-            return new PageViewModel(_mail.Count(new MessageInfoBindingModel { ClientId = clientId }), page, pageSize, _mail.GetMessagesForPage(new MessageInfoBindingModel { Page = page, PageSize = pageSize, ClientId = clientId }));
+            var list = _logicM.Read(new MessageInfoBindingModel { ClientId = clientId, ToSkip = (page - 1) * mailsOnPage, ToTake = mailsOnPage + 1 }).ToList();
+            var hasNext = !(list.Count() <= mailsOnPage);
+            return (list.Take(mailsOnPage).ToList(), hasNext);
         }
         private void CheckData(ClientBindingModel model)
         {

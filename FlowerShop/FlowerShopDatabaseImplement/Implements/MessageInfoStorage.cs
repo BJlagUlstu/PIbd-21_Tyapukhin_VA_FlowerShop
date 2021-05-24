@@ -2,7 +2,6 @@
 using FlowerShopBusinessLogic.Interfaces;
 using FlowerShopBusinessLogic.ViewModels;
 using FlowerShopDatabaseImplement.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -15,17 +14,11 @@ namespace FlowerShopDatabaseImplement.Implements
             using (var context = new FlowerShopDatabase())
             {
                 return context.MessageInfoes
-                .Select(rec => new MessageInfoViewModel
-                {
-                    MessageId = rec.MessageId,
-                    SenderName = rec.SenderName,
-                    DateDelivery = rec.DateDelivery,
-                    Subject = rec.Subject,
-                    Body = rec.Body
-                })
+                .Select(CreateModel)
                .ToList();
             }
         }
+
         public List<MessageInfoViewModel> GetFilteredList(MessageInfoBindingModel model)
         {
             if (model == null)
@@ -34,17 +27,17 @@ namespace FlowerShopDatabaseImplement.Implements
             }
             using (var context = new FlowerShopDatabase())
             {
+                if (model.ToSkip.HasValue && model.ToTake.HasValue && !model.ClientId.HasValue)
+                {
+                    return context.MessageInfoes.Skip((int)model.ToSkip).Take((int)model.ToTake)
+                    .Select(CreateModel).ToList();
+                }
                 return context.MessageInfoes
                 .Where(rec => (model.ClientId.HasValue && rec.ClientId == model.ClientId) || (!model.ClientId.HasValue && rec.DateDelivery.Date == model.DateDelivery.Date))
-                .Select(rec => new MessageInfoViewModel
-                {
-                    MessageId = rec.MessageId,
-                    SenderName = rec.SenderName,
-                    DateDelivery = rec.DateDelivery,
-                    Subject = rec.Subject,
-                    Body = rec.Body
-                })
-               .ToList();
+                .Skip(model.ToSkip ?? 0)
+                .Take(model.ToTake ?? context.MessageInfoes.Count())
+                .Select(CreateModel)
+                .ToList();
             }
         }
         public void Insert(MessageInfoBindingModel model)
@@ -54,7 +47,7 @@ namespace FlowerShopDatabaseImplement.Implements
                 MessageInfo element = context.MessageInfoes.FirstOrDefault(rec => rec.MessageId == model.MessageId);
                 if (element != null)
                 {
-                    throw new Exception("Уже есть письмо с таким идентификатором");
+                    return;
                 }
                 context.MessageInfoes.Add(new MessageInfo
                 {
@@ -68,32 +61,16 @@ namespace FlowerShopDatabaseImplement.Implements
                 context.SaveChanges();
             }
         }
-        public int Count(MessageInfoBindingModel model)
+        private MessageInfoViewModel CreateModel(MessageInfo model)
         {
-            using (var context = new FlowerShopDatabase())
+            return new MessageInfoViewModel
             {
-                if (model != null)
-                {
-                    return context.MessageInfoes.Where(rec => (model.ClientId.HasValue && model.ClientId.Value == rec.ClientId) || !model.ClientId.HasValue).Count();
-                }
-                return context.MessageInfoes.Count();
-            }
-        }
-        public List<MessageInfoViewModel> GetMessagesForPage(MessageInfoBindingModel model)
-        {
-            using (var context = new FlowerShopDatabase())
-            {
-                return context.MessageInfoes.Where(rec => (model.ClientId.HasValue && model.ClientId.Value == rec.ClientId) || !model.ClientId.HasValue)
-                .Skip((model.Page.Value - 1) * model.PageSize.Value).Take(model.PageSize.Value).ToList()
-                .Select(rec => new MessageInfoViewModel
-                {
-                    MessageId = rec.MessageId,
-                    SenderName = rec.SenderName,
-                    DateDelivery = rec.DateDelivery,
-                    Subject = rec.Subject,
-                    Body = rec.Body
-                }).ToList();
-            }
+                MessageId = model.MessageId,
+                SenderName = model.SenderName,
+                DateDelivery = model.DateDelivery,
+                Subject = model.Subject,
+                Body = model.Body
+            };
         }
     }
 }

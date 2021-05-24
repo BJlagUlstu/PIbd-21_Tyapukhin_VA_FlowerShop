@@ -140,8 +140,9 @@ namespace FlowerShopClientApp.Controllers
             {
                 return Redirect("~/Home/Enter");
             }
-            int pageSize = 7;
-            return View(APIClient.GetRequest<PageViewModel>($"api/client/getmessages?clientId={Program.Client.Id}&pageSize={pageSize}&page={page}"));
+            var (list, hasNext) = APIClient.GetRequest<(List<MessageInfoViewModel> list, bool hasNext)>($"api/client/getmessages?clientId={Program.Client.Id}&page={page}");
+            (List<MessageInfoViewModel>, bool, int) model = (list, hasNext, page);
+            return View(model);
         }
 
         [HttpPost]

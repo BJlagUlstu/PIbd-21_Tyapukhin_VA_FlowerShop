@@ -2,83 +2,82 @@
 using FlowerShopBusinessLogic.BusinessLogics;
 using System.Windows.Forms;
 using FlowerShopBusinessLogic.BindingModels;
-using FlowerShopBusinessLogic.ViewModels;
+using System.Linq;
 
 namespace FlowerShopView
 {
     public partial class FormMails : Form
     {
         private readonly MailLogic logic;
-        private PageViewModel pageViewModel;
+
+        private bool hasNext = false;
+
+        private readonly int mailsOnPage = 2;
+
+        private int currentPage = 0;
+
         public FormMails(MailLogic mailLogic)
         {
             logic = mailLogic;
+            if (mailsOnPage < 1) { mailsOnPage = 5; }
             InitializeComponent();
         }
-        private void LoadData(int page = 1)
-        {
-            int pageSize = 3;
 
-            var list = logic.GetMessagesForPage(new MessageInfoBindingModel
-            {
-                Page = page,
-                PageSize = pageSize
-            });
-            if (list != null)
-            {
-                pageViewModel = new PageViewModel(logic.Count(null), page, pageSize, list);
-                dataGridView.DataSource = list;
-                dataGridView.Columns[0].Visible = false;
-                dataGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            }
-            int pageStart = page < 3 ? 1 : page - 2;
-            Button[] buttons = { buttonPage1, buttonPage2, buttonPage3, buttonPage4, buttonPage5 };
-            for (int i = 0; i < buttons.Length; ++i)
-            {
-                buttons[i].Show();
-                SetButtonPagetext(buttons[i], pageStart + i, pageViewModel.TotalPages);
-            }
-        }
-        private void SetButtonPagetext(Button button, int pageNumber, int totalPages)
-        {
-            if (pageNumber <= totalPages)
-            {
-                button.Text = pageNumber.ToString();
-            }
-            else
-            {
-                button.Hide();
-            }
-        }
         private void FormMails_Load(object sender, EventArgs e)
         {
             LoadData();
         }
-        private void buttonNext_Click(object sender, EventArgs e)
+
+        private void LoadData()
         {
-            if (pageViewModel.HasNextPage)
+            var list = logic.Read(new MessageInfoBindingModel { ToSkip = currentPage * mailsOnPage, ToTake = mailsOnPage + 1 });
+            hasNext = !(list.Count() <= mailsOnPage);
+            if (hasNext)
             {
-                LoadData(pageViewModel.PageNumber + 1);
+                buttonNext.Text = "Далее " + (currentPage + 2);
+                buttonNext.Enabled = true;
             }
             else
             {
-                MessageBox.Show("Это последняя страница", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                buttonNext.Text = "Далее";
+                buttonNext.Enabled = false;
+            }
+            if (list != null)
+            {
+                dataGridView.DataSource = list.Take(mailsOnPage).ToList();
+                dataGridView.Columns[0].Visible = false;
             }
         }
-        private void buttonPrev_Click(object sender, EventArgs e)
+        private void ButtonNext_Click(object sender, EventArgs e)
         {
-            if (pageViewModel.HasPreviousPage)
+            if (hasNext)
             {
-                LoadData(pageViewModel.PageNumber - 1);
-            }
-            else
-            {
-                MessageBox.Show("Это первая страница", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                currentPage++;
+                textBoxPage.Text = (currentPage + 1).ToString();
+                buttonPrev.Enabled = true;
+                buttonPrev.Text = "Назад " + (currentPage);
+                LoadData();
             }
         }
-        private void buttonPage_Click(object sender, EventArgs e)
+        private void ButtonPrev_Click(object sender, EventArgs e)
         {
-            LoadData(Convert.ToInt32(((Button)sender).Text));
+            if ((currentPage - 1) >= 0)
+            {
+                currentPage--;
+                textBoxPage.Text = (currentPage + 1).ToString();
+                buttonNext.Enabled = true;
+                buttonNext.Text = "Далее " + (currentPage + 2);
+                if (currentPage == 0)
+                {
+                    buttonPrev.Enabled = false;
+                    buttonPrev.Text = "Назад";
+                }
+                else
+                {
+                    buttonPrev.Text = "Назад " + (currentPage);
+                }
+                LoadData();
+            }
         }
     }
 }
