@@ -19,7 +19,7 @@ namespace FlowerShopBusinessLogic.BusinessLogics
             {
                 return _clientStorage.GetFullList();
             }
-            if (model.Id.HasValue || model.Email != null)
+            if (model.Id.HasValue)
             {
                 return new List<ClientViewModel> { _clientStorage.GetElement(model) };
             }

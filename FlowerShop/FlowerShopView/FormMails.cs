@@ -9,11 +9,8 @@ namespace FlowerShopView
     public partial class FormMails : Form
     {
         private readonly MailLogic logic;
-
         private bool hasNext = false;
-
         private readonly int mailsOnPage = 2;
-
         private int currentPage = 0;
 
         public FormMails(MailLogic mailLogic)
@@ -22,12 +19,10 @@ namespace FlowerShopView
             if (mailsOnPage < 1) { mailsOnPage = 5; }
             InitializeComponent();
         }
-
         private void FormMails_Load(object sender, EventArgs e)
         {
             LoadData();
         }
-
         private void LoadData()
         {
             var list = logic.Read(new MessageInfoBindingModel { ToSkip = currentPage * mailsOnPage, ToTake = mailsOnPage + 1 });

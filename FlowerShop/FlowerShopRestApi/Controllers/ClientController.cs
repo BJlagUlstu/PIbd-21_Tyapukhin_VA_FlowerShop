@@ -25,7 +25,8 @@ namespace FlowerShopRestApi.Controllers
             if (mailsOnPage < 1) { mailsOnPage = 5; }
         }
         [HttpGet]
-        public ClientViewModel Login(string login, string password) => _logic.Read(new ClientBindingModel { Email = login, Password = password })?[0];
+        public ClientViewModel Login(string login, string password) => _logic.Read(new ClientBindingModel
+        { Email = login, Password = password })?[0];
         [HttpPost]
         public void Register(ClientBindingModel model)
         {
