@@ -35,10 +35,10 @@ namespace FlowerShopBusinessLogic.ViewModels
         [Column(title: "Статус", width: 100)]
         [DataMember]
         public OrderStatus Status { get; set; }
-        [Column(title: "Дата создания", width: 130)]
+        [Column(title: "Дата создания", width: 120, format: "R")]
         [DataMember]
         public DateTime DateCreate { get; set; }
-        [Column(title: "Дата выполнения", width: 130)]
+        [Column(title: "Дата выполнения", width: 120, format: "D")]
         [DataMember]
         public DateTime? DateImplement { get; set; }
     }
